@@ -17,3 +17,39 @@ query getSingleAccoung ($id: String!) {
     }
   }
 }
+
+mutation createAccount ($name: String!, $mobile: String!, $address: String!) {
+  createAccount(name: $name, mobile: $mobile, address: $address) {
+    id,
+    name,
+    mobile,
+    address
+  }
+}
+
+{
+  "name": "new account",
+  "mobile": "1234",
+  "address": "new address"
+}
+
+
+mutation createAsset ($accountID: String!, $asset: AssetInput!) {
+  createAsset (accountID: $accountID, asset: $asset) {
+    name
+  }
+}
+
+{
+  "accountID": "acc-1",
+  "asset": {
+    "uid": "uid-1",
+    "name": "Piggy 1",
+    "image": "image 1",
+    "birth_date": 123,
+    "origin": "origin 1",
+    "weight": 12345,
+    "skin": "black",
+    "type": "pig"
+  }
+}

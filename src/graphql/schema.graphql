@@ -1,32 +1,54 @@
+input AssetInput {
+  uid: String!
+  name: String!
+  image: String!
+  birth_date: Int!
+  origin: String!
+  weight: Int!
+  skin: String!
+  type: String!
+
+  description: String
+  birth_place: String
+  diet: String
+  vaccination:String
+  price: Int
+}
+
 type Query {
-  account(id: String!): Account,
-  accounts: [Account],
+  account(id: String!): Account
+  accounts: [Account]
   asset(id: String!): LiveStockAsset
 }
 
+type Mutation {
+  createAccount(name: String!, mobile: String!, address: String!): Account
+  createAsset(accountID: String!, asset: AssetInput!): LiveStockAsset
+}
+
 type Account {
-  id: String,
-  name: String,
-  mobile: String,
-  address: String,
+  id: String
+  name: String
+  mobile: String
+  address: String
   assets: [LiveStockAsset]
 }
 
 type LiveStockAsset {
-  id: String,
-  name: String,
-  image: String,
-  description: String
+  id: String
+  uid: String
+  name: String
+  image: String
+  birth_date: Int
+  origin: String
+  weight: Int
+  skin: [String]
+  type: String
 
-  uid: String,
-  type: String,
-  birth_place: String,
-  birth_date: Int,
-  origin: String,
-  parents: [LiveStockAsset],
-  skin: [String],
+  description: String
+  birth_place: String
   diet: [String]
   vaccination:[String]
-  weight: Int,
   price: Int
+  parents: [LiveStockAsset]
 }
