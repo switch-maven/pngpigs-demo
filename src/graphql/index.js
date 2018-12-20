@@ -1,7 +1,9 @@
 const express_graphql = require('express-graphql')
+const { importSchema } = require('graphql-import')
 const { buildSchema } = require('graphql')
+const path = require('path')
 
-const schema = require('./schema')
+const schema = importSchema(path.join(__dirname, './schema.graphql'))
 const resolver = require('./resolver')
 
 module.exports = express_graphql({

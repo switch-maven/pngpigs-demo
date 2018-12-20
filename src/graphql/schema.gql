@@ -1,4 +1,3 @@
-const schema = `
 type Query {
   account(id: String!): Account,
   accounts: [Account],
@@ -31,6 +30,3 @@ type LiveStockAsset {
   weight: Int,
   price: Int
 }
-`
-
-module.exports = schema
