@@ -1,7 +1,8 @@
 const schema = `
 type Query {
   account(id: String!): Account,
-  accounts: [Account]
+  accounts: [Account],
+  asset(id: String!): LiveStockAsset
 }
 
 type Account {

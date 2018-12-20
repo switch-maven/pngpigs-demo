@@ -1,9 +1,13 @@
-const { accounts, assets } = require('../fake-data')
+const { accounts, assets } = require('../tmp/fake-data')
 
 function getAssets (account) {
   return account.asset_ids.map(id => {
     return assets.find(asset => asset.id === id)
   })
+}
+
+function getAsset ({ id }) {
+  return assets.find(asset => asset.id === id)
 }
 
 function getAccounts () {
@@ -24,7 +28,8 @@ function getAccount ({ id }) {
 
 const resolver = {
   accounts: getAccounts,
-  account: getAccount
+  account: getAccount,
+  asset: getAsset
 }
 
 module.exports = resolver
