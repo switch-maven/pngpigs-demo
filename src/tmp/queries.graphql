@@ -7,7 +7,7 @@ query getSingleAccoung ($id: String!) {
   }
 }
 
-{
+query {
   accounts {
     id,
     name,
@@ -36,6 +36,7 @@ mutation createAccount ($name: String!, $mobile: String!, $address: String!) {
 
 mutation createAsset ($accountID: String!, $asset: AssetInput!) {
   createAsset (accountID: $accountID, asset: $asset) {
+    id
     name
     image
     birth_date

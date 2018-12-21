@@ -56,11 +56,14 @@ function createAsset ({ accountID, asset }) {
   delete asset.skin
 
   const newAsset = {
-    id: (account.asset_ids.length + 1),
+    id: `asset-${account.asset_ids.length + 1}`,
     ...asset
   }
 
   newAsset.skin = [newSkin]
+
+  account.asset_ids.push(newAsset.id)
+  assets.push(newAsset)
 
   return newAsset
 }
