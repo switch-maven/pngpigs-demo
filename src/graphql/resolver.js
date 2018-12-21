@@ -52,10 +52,15 @@ function createAsset ({ accountID, asset }) {
     throw new Error('Missing account id:', accountID)
   }
 
+  const newSkin = asset.skin
+  delete asset.skin
+
   const newAsset = {
     id: (account.asset_ids.length + 1),
     ...asset
   }
+
+  newAsset.skin = [newSkin]
 
   return newAsset
 }

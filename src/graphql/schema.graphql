@@ -5,13 +5,13 @@ input AssetInput {
   birth_date: Int!
   origin: String!
   weight: Int!
-  skin: [String!]
+  skin: String!
   type: String!
 
   description: String
   birth_place: String
   diet: String
-  vaccination:String
+  vaccination: String
   price: Int
 }
 

@@ -55,10 +55,7 @@ mutation createAsset ($accountID: String!, $asset: AssetInput!) {
     "birth_date": 123,
     "origin": "origin 1",
     "weight": 12345,
-    "skin": [
-      "black",
-      "dotted"
-    ],
+    "skin": "dotted",
     "type": "pig"
   }
 }
