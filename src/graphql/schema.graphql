@@ -16,9 +16,9 @@ input LivestockInput {
 }
 
 type Query {
-  account(id: String!): Account
-  accounts: [Account]
-  asset(id: String!): LivestockAsset
+  getAccount(id: String!): Account
+  getAccounts: [Account]
+  getAsset(id: String!): LivestockAsset
 }
 
 type Mutation {

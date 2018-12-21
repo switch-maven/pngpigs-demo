@@ -22,7 +22,6 @@ function getAccounts () {
 }
 
 function getAccount ({ id }) {
-  console.log('getAccount')
   const account = accounts.find(acc => acc.id === id)
 
   account.assets = getAssets(account)
@@ -69,9 +68,9 @@ function registerLivestock ({ accountID, asset }) {
 }
 
 const resolver = {
-  accounts: getAccounts,
-  account: getAccount,
-  asset: getAsset,
+  getAccounts,
+  getAccount,
+  getAsset,
   createAccount,
   registerLivestock
 }

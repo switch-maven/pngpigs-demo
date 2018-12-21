@@ -1,5 +1,6 @@
-query getSingleAccoung ($id: String!) {
-  account(id: $id) {
+# get single account
+query getSingleAccount ($id: String!) {
+  getAccount (id: $id) {
     name,
     assets {
       name
@@ -7,8 +8,13 @@ query getSingleAccoung ($id: String!) {
   }
 }
 
+{
+  "id": "acc-1"
+}
+
+# get all accounts
 query {
-  accounts {
+  getAccounts {
     id,
     name,
     assets {
@@ -18,8 +24,9 @@ query {
   }
 }
 
+# create a new account
 mutation createAccount ($name: String!, $mobile: String!, $address: String!) {
-  createAccount(name: $name, mobile: $mobile, address: $address) {
+  createAccount (name: $name, mobile: $mobile, address: $address) {
     id,
     name,
     mobile,
@@ -33,7 +40,7 @@ mutation createAccount ($name: String!, $mobile: String!, $address: String!) {
   "address": "new address"
 }
 
-
+# register a new livestock & link to account
 mutation registerLivestock ($accountID: String!, $asset: LivestockInput!) {
   registerLivestock (accountID: $accountID, asset: $asset) {
     id
