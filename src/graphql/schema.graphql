@@ -5,7 +5,7 @@ input AssetInput {
   birth_date: Int!
   origin: String!
   weight: Int!
-  skin: String!
+  skin: [String!]
   type: String!
 
   description: String

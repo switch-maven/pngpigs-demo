@@ -35,8 +35,8 @@ const assets = [
     birth_date: 1545194130934,
     origin: 'country 1',
     parents: [],
-    skin: 'black',
-    diet: 'potato',
+    skin: ['black'],
+    diet: ['potato'],
     vaccination: ['v-1', 'v-2'],
     weight: 120,
     price: 1000
@@ -53,8 +53,8 @@ const assets = [
     birth_date: 1545194130934,
     origin: 'country 2',
     parents: [],
-    skin: 'black',
-    diet: 'potato',
+    skin: ['black'],
+    diet: ['potato'],
     vaccination: ['v-1', 'v-2'],
     weight: 120,
     price: 1000
@@ -71,8 +71,8 @@ const assets = [
     birth_date: 1545194130934,
     origin: 'country 3',
     parents: [],
-    skin: 'black',
-    diet: 'potato',
+    skin: ['black'],
+    diet: ['potato'],
     vaccination: ['v-1', 'v-2'],
     weight: 120,
     price: 1000

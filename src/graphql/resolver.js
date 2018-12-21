@@ -46,7 +46,6 @@ function createAccount ({ name, mobile, address }) {
 }
 
 function createAsset ({ accountID, asset }) {
-  console.log('>>', accountID)
   const account = accounts.find(acc => acc.id === accountID)
 
   if (!account) {

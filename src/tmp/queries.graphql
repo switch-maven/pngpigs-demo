@@ -37,6 +37,12 @@ mutation createAccount ($name: String!, $mobile: String!, $address: String!) {
 mutation createAsset ($accountID: String!, $asset: AssetInput!) {
   createAsset (accountID: $accountID, asset: $asset) {
     name
+    image
+    birth_date
+    origin
+    weight
+    skin
+    type
   }
 }
 
@@ -49,7 +55,10 @@ mutation createAsset ($accountID: String!, $asset: AssetInput!) {
     "birth_date": 123,
     "origin": "origin 1",
     "weight": 12345,
-    "skin": "black",
+    "skin": [
+      "black",
+      "dotted"
+    ],
     "type": "pig"
   }
 }
