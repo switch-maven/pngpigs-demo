@@ -34,8 +34,8 @@ mutation createAccount ($name: String!, $mobile: String!, $address: String!) {
 }
 
 
-mutation createAsset ($accountID: String!, $asset: AssetInput!) {
-  createAsset (accountID: $accountID, asset: $asset) {
+mutation registerLivestock ($accountID: String!, $asset: LivestockInput!) {
+  registerLivestock (accountID: $accountID, asset: $asset) {
     id
     name
     image

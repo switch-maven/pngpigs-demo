@@ -45,7 +45,7 @@ function createAccount ({ name, mobile, address }) {
   return account
 }
 
-function createAsset ({ accountID, asset }) {
+function registerLivestock ({ accountID, asset }) {
   const account = accounts.find(acc => acc.id === accountID)
 
   if (!account) {
@@ -73,7 +73,7 @@ const resolver = {
   account: getAccount,
   asset: getAsset,
   createAccount,
-  createAsset
+  registerLivestock
 }
 
 module.exports = resolver

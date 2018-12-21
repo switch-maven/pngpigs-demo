@@ -1,4 +1,4 @@
-input AssetInput {
+input LivestockInput {
   uid: String!
   name: String!
   image: String!
@@ -18,12 +18,12 @@ input AssetInput {
 type Query {
   account(id: String!): Account
   accounts: [Account]
-  asset(id: String!): LiveStockAsset
+  asset(id: String!): LivestockAsset
 }
 
 type Mutation {
   createAccount(name: String!, mobile: String!, address: String!): Account
-  createAsset(accountID: String!, asset: AssetInput!): LiveStockAsset
+  registerLivestock(accountID: String!, asset: LivestockInput!): LivestockAsset
 }
 
 type Account {
@@ -31,10 +31,10 @@ type Account {
   name: String
   mobile: String
   address: String
-  assets: [LiveStockAsset]
+  assets: [LivestockAsset]
 }
 
-type LiveStockAsset {
+type LivestockAsset {
   id: String
   uid: String
   name: String
@@ -50,5 +50,5 @@ type LiveStockAsset {
   diet: [String]
   vaccination:[String]
   price: Int
-  parents: [LiveStockAsset]
+  parents: [LivestockAsset]
 }
