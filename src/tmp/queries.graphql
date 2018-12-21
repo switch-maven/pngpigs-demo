@@ -1,9 +1,10 @@
 # get single account
 query getSingleAccount ($id: String!) {
   getAccount (id: $id) {
-    name,
+    name
     assets {
       name
+      birth_date
     }
   }
 }
@@ -15,10 +16,10 @@ query getSingleAccount ($id: String!) {
 # get all accounts
 query {
   getAccounts {
-    id,
-    name,
+    id
+    name
     assets {
-      id,
+      id
       name
     }
   }
@@ -27,9 +28,9 @@ query {
 # create a new account
 mutation createAccount ($name: String!, $mobile: String!, $address: String!) {
   createAccount (name: $name, mobile: $mobile, address: $address) {
-    id,
-    name,
-    mobile,
+    id
+    name
+    mobile
     address
   }
 }
@@ -65,5 +66,28 @@ mutation registerLivestock ($accountID: String!, $asset: LivestockInput!) {
     "weight": 12345,
     "skin": "dotted",
     "type": "pig"
+  }
+}
+
+# update an existing livestock
+mutation updateLivestock ($accountID: String!, $updates: LivestockUpdates!) {
+  updateLivestock (accountID: $accountID, updates: $updates) {
+    id
+    name
+    image
+    birth_date
+    weight
+    diet
+    vaccination
+  }
+}
+
+{
+  "accountID": "acc-1",
+  "updates": {
+    "id": "asset-1",
+    "weight": 12345,
+    "vaccination": "t",
+    "diet": "tomato"
   }
 }
