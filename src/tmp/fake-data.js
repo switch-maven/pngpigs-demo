@@ -3,7 +3,7 @@ const accounts = [
     id: 'acc-1',
     name: 'user 1',
     mobile: 1001,
-    address: 'address 1',
+    address: 'eth address 1',
     asset_ids: ['asset-1', 'asset-2']
   },
   {
@@ -24,7 +24,7 @@ const accounts = [
 
 const assets = [
   {
-    id: 'asset-1',
+    id: 'asset-1 uniq token id',
     name: 'piggy 1',
     image: 'piggy.jpg',
     description: 'description 1',
