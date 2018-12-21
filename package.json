@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "start": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +16,6 @@
     "graphql-import": "^0.7.1"
   },
   "devDependencies": {
-    "@playlyfe/gql": "^2.6.1",
     "nodemon": "^1.18.9"
   }
 }
