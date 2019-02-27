@@ -79,6 +79,7 @@ type Query {
   account(id: String!): Account
   accounts: [Account]
   asset(id: String!): LivestockAsset
+  assets: [LivestockAsset]
 }
 
 type Mutation {
@@ -99,7 +100,7 @@ type Account {
   id: String
   name: String
   mobile: String,
-  
+
   "Ethereum address"
   address: String
   assets: [LivestockAsset]
