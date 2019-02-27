@@ -9,8 +9,10 @@ const schema = importSchema(path.join(__dirname, './schema.graphql'))
 module.exports = express_graphql({
   schema: buildSchema(schema),
   rootValue: {
+    assets: API.assets,
     asset: API.asset,
     account: API.account,
+    accounts: API.accounts,
     createAccount: API.createAccount,
     verifyAccount: API.verifyAccount
   },

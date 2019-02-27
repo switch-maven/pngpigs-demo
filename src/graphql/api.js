@@ -12,16 +12,24 @@ const API = {
 
   /* Read / Query */
 
+  accounts() {
+    return accounts
+  },
+
   // Account id or address 0x0000
-  account(id) {
+  account({ id }) {
     return accounts.find(a => a.id == id || a.address == id)
+  },
+
+  assets() {
+    return assets
   },
 
   // Asset Id = Symbol:token_id
   // PNG:1
   // CK:1
   // LAND:123456
-  asset(id) {
+  asset({ id }) {
     let symbol;
 
     if (id.includes(':')) {
