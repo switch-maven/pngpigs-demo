@@ -8,7 +8,7 @@ const graphqlHandler = require('./graphql')
 app.use('/graphql', graphqlHandler)
 
 app.get('/', (req, res) => {
-  res.send('hello world')
+  res.send('Oink, Oink... ')
 })
 
 app.listen(PORT, () => {

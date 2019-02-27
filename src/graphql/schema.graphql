@@ -1,65 +1,172 @@
 scalar Timestamp
 
-input LivestockInput {
-  uid: String!
-  name: String!
-  image: String!
-  birth_date: Timestamp!
-  origin: String!
-  weight: Int!
-  skin: String!
-  type: String!
+"""
+  Mobile device information
 
-  description: String
-  birth_place: String
-  diet: String
-  vaccination: String
-  price: Int
+  normalise device info for Android and iOS
+
+"""
+
+input Device {
+  "Unique device id"
+  uid: String!,
+
+  "iPhone"
+  model: String!,
+
+  "Taylor Luk's iPhone"
+  name: String!,
+
+  "device locale for internationalisation"
+  locale: String,
+
+  "Registered push notification id"
+  notification_id: String,
+
+  "iOS 11.1"
+  system_name: String,
+
+  "11.1"
+  system_version: String
 }
 
-input LivestockUpdates {
+"""
+
+  Live Stock Registration
+
+  age: 0
+
+"""
+input Registration {
+
+  "Unique livestock asset id. Ex: PNG:0 symbol:token_id "
+  uid: String!,
+
+  "Type of livestock Pig, Goat, Horse",
+  type: String!,
+
+  "Name of the livestock, defaults to owner (Taylor's Pig)",
+  name: String!,
+
+  "Latest image",
+  image: String!,
+
+  "Age can be used to approximate a exact birth_date, when a pig is registered after birth"
+  age: Float,
+
+  birth_date: Timestamp!
+  birth_place: String
+
+  origin: String!
+  breed: String
+  skin: String!
+  parents: [String]
+
+  weight: Int!
+  location: [Int]
+}
+
+input Updatable {
   id: String!
+  image: String
   weight: Int
-  diet: String
-  vaccination: String
+  diet: [String]
+  medications: String
+  incidents: [String]
 }
 
 type Query {
-  getAccount(id: String!): Account
-  getAccounts: [Account]
-  getAsset(id: String!): LivestockAsset
+  account(id: String!): Account
+  accounts: [Account]
+  asset(id: String!): LivestockAsset
 }
 
 type Mutation {
-  createAccount(name: String!, mobile: String!, address: String!): Account
-  registerLivestock(accountID: String!, asset: LivestockInput!): LivestockAsset
-  updateLivestock(accountID: String!, updates: LivestockUpdates!): LivestockAsset
-  # transferLivestock(fromAddress: String!, toAddress: String!, assetID: String!): LivestockAsset
+  "Name of account, mobile number with country code, device hash"
+  createAccount(name: String!, mobile: String!, device: Device!): Account,
+
+  "SMS Verification code with a account id or address (1 or 0x111)"
+  verifyAccount(account:String!, code: String!): Account,
+
+  "Register a live stock, id can be account id or address (1 or 0x111)"
+  register(account: String!, data: Registration! ): LivestockAsset,
+
+  "Provide a update on a live stock, unique asset id (PNG:1)"
+  update(account: String!, asset_id: String!, data: Updatable! ): LivestockAsset
 }
 
 type Account {
   id: String
   name: String
-  mobile: String
+  mobile: String,
+  
+  "Ethereum address"
   address: String
   assets: [LivestockAsset]
 }
 
-type LivestockAsset {
-  id: String
-  uid: String
-  name: String
-  image: String
-  birth_date: Timestamp
-  origin: String
-  weight: Int
-  skin: [String]
-  type: String
+"""
+ Livestock lifecycle events
 
-  description: String
-  birth_place: String
-  diet: [String]
-  vaccination:[String]
-  price: Int
-  parents: [LivestockAsset]
+  Registration data(location: )
+
+"""
+type Event {
+  "Birth, Death, Update (has incident, disease, pragment, birth), Transfer"
+  name: String!,
+
+  "JSON encoded data blurb"
+  data: String,
+
+  "Unix timestamp or ISO8601 time"
+  time: Timestamp!
+}
+
+type LivestockAsset {
+
+  "Unique livestock asset id. (symbol:id) Ex: PNG:0, CK:1"
+  uid: String,
+
+  "Type of livestock Pig, Goat, Horse",
+  type: String,
+
+  "numeric livestock id"
+  id: String,
+
+  "Name of the livestock, defaults to owner (Taylor's Pig)",
+  name: String,
+
+  "Latest image",
+  image: String,
+
+  "Short description",
+  description: String,
+
+  "Convinent attribute "
+  age: Float,
+  birth_date: Timestamp,
+  birth_place: String,
+  gender: String,
+  breed: String,
+  skin: [String],
+
+  origin: String,
+  parents: [LivestockAsset],
+
+  location: [Int],
+  weight: Float,
+
+  diet: [String],
+  medication: [String],
+
+  events: [Event],
+
+  # Convinent way to access through relations
+  images: [String],
+  weights: [Float]
+  prices: [Float]
+
+  # All medication has been administrated
+  death_place: String
+  death_date: Timestamp
 }
