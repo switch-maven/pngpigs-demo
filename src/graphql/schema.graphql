@@ -160,6 +160,7 @@ type LivestockAsset {
   diet: [String],
   medication: [String],
 
+  owner: [Account],
   events: [Event],
 
   # Convinent way to access through relations

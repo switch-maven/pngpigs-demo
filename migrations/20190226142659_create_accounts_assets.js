@@ -19,7 +19,7 @@ exports.up = function(knex, Promise) {
   var assets = knex.schema.createTable('assets', function(table) {
     table.increments();
 
-    table.integer('account_id').unsigned().references('accounts.id');
+    table.integer('owner_id').unsigned().references('accounts.id');
 
     table.string('uid').notNullable();
     table.string('type').notNullable();
@@ -45,27 +45,31 @@ exports.up = function(knex, Promise) {
     table.timestamp('updated_at').defaultTo(knex.fn.now())
   });
 
+  var events = knex.schema.createTable('events', function(table) {
+    table.increments();
 
-    var events = knex.schema.createTable('events', function(table) {
-      table.increments();
+    table.integer('account_id').unsigned().references('accounts.id');
+    table.integer('asset_id').unsigned().references('assets.id');
 
-      table.integer('account_id').unsigned().references('accounts.id');
-      table.integer('asset_id').unsigned().references('assets.id');
+    table.string('type').notNullable();
+    table.string('name').notNullable();
 
-      table.string('type').notNullable();
-      table.string('name').notNullable();
-      table.string('txid');
+    table.json('data');
 
-      table.timestamp('created_at').defaultTo(knex.fn.now())
-      table.timestamp('updated_at').defaultTo(knex.fn.now())
-    });
+    table.string('txid');
+    table.string('signiture');
 
-  return Promise.all([accounts, assets])
+    table.timestamp('created_at').defaultTo(knex.fn.now())
+    table.timestamp('updated_at').defaultTo(knex.fn.now())
+  });
+
+  return Promise.all([accounts, assets, events])
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('accounts'),
+    knex.schema.dropTable('events'),
     knex.schema.dropTable('assets') ])
 
 };
