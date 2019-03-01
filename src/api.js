@@ -107,7 +107,13 @@ const API = {
   // Livestock
   register(address, registration) {},
 
-  update(address, assetId, updatable) {},
+  update(address, assetId, updatable) {
+    // authorize user
+    // find asset by assetId
+    // handle image processing if applicable
+    // persist to db
+    // handle errors
+  },
 
   transfer(address) {},
 
