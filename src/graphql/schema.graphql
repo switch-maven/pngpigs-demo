@@ -87,7 +87,7 @@ input Updatable {
 }
 
 type Query {
-  account(id: String!): Account
+  account(id: String, device_id: String): Account
   accounts: [Account]
   asset(id: String!): LivestockAsset
   assets: [LivestockAsset]

@@ -20,11 +20,14 @@ const API = {
   //
   // Account id or address 0x0000
   // Account(id: "")
-  async account({ id }) {
+  async account({ id, device_id }) {
     let scope = Account.query().eager({ assets: true })
     let result;
 
-    if (id.toString().includes('0x')) {
+    if (device_id) {
+      result = (await scope.whereRaw("device->>? = ?", ['uid', device_id]))[0]
+    }
+    else if (id.toString().includes('0x')) {
       result = (await scope.where({ address: id }))[0]
     } else {
       result = await scope.findById(id)
@@ -70,31 +73,57 @@ const API = {
     @return Account
   */
   async createAccount({ name, mobile, device }) {
-    console.log('createAccount', name, mobile, device)
     var mobileNumber = (n) => phoneUtil.format(phoneUtil.parse(n), PNF.E164)
 
     // parse
     mobile = mobileNumber(mobile)
 
-    let account = (await Account.query().where('mobile', mobile))[0]
+    let existing = (await Account.query().where('mobile', mobile))[0]
+    let mismatch = device.uid != existing.device.uid
 
-    if (!account) {
-      account = { name, mobile, device }
-      // account.id = accounts.length + 1
-      // account.address = this.wallet(account.id).getChecksumAddressString()
-      account.address = "0x0"
-      account.code = Math.floor(Math.random()*900000) + 100000
-      // account.status = 'new'
 
-      return Account.query().insert(account).then(a => {
-        return Account.query().update({
-          address: API.wallet(a.id).getChecksumAddressString()
-        }).where('id', a.id)
-      })
-      // accounts.push(account)
-    }
+    console.log('createAccount', mobile, existing.device.uid, device.uid)
 
-    return Promise.resolve(account)
+    return new Promise((resolve, reject) => {
+
+      if (!existing || mismatch) {
+        let account = { name, mobile }
+        // account.id = accounts.length + 1
+        // account.address = this.wallet(account.id).getChecksumAddressString()
+
+        let updateAccount = (a) => {
+          let address = API.wallet(a.id).getChecksumAddressString()
+
+          account.address = address
+          account.id = a.id
+
+          return Account.query().update({address: address, device: device}).where('id', a.id).then(() => {
+            resolve(account)
+          })
+        }
+
+        account.address = account.address || "0x0"
+        account.code = Math.floor(Math.random()*900000) + 100000
+        // account.status = 'new'
+
+        if (existing) {
+          console.log("Update existing account to current device", existing, device)
+          updateAccount(existing)
+        } else {
+          console.log("Create new account and bind to device", existing, device)
+          Account.query().insert(account).then(updateAccount)
+        }
+
+
+        // accounts.push(account)
+      } else {
+
+        // existing account
+        console.log('existing account looks ok')
+        resolve(existing)
+      }
+    })
+
   },
 
   /*
@@ -136,11 +165,11 @@ const API = {
   }
 }
 
-// let a = API.createAccount('taylor luk', '+61415882430', { uid: "device uuid", model: "iMac", name: "iMac 27"})
-// let b = API.createAccount('Mark Guo', '+61422416086‬', { uid: "device uuid", model: "iMac", name: "iMac 27"})
-// let c = API.createAccount('Jamie', '+61430443500', { uid: "device uuid", model: "iMac", name: "iMac 27"})
-//
-// let d = API.createAccount('Ramen', '+61430443501', { uid: "device uuid", model: "Surface", name: "win 10"})
+// let a = API.createAccount({ name: 'taylor luk', mobile: '+61415882430', device: { uid: "device uuid", model: "iMac", name: "iMac 27"}})
+// let b = API.createAccount({ name: 'Mark Guo', mobile: '+61422416086‬', device: { uid: "device uuid", model: "iMac", name: "iMac 27"}})
+// let c = API.createAccount({ name: 'Jamie', mobile: '+61430443500', device: { uid: "device uuid", model: "iMac", name: "iMac 27"}})
+// //
+// let d = API.createAccount({ name: 'Ramen', mobile: '+61402540888', device: { uid: "device uuid", model: "Surface", name: "win 10"}})
 //
 // console.log([a, b, c, d])
 

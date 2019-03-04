@@ -19,6 +19,17 @@ const accounts = [
     info: {
       geora_actor_id: "8b58349d-57de-4406-acc3-bd7c32936a7d"
     }
+  },
+
+  {
+    name: 'Jamie Cerexhe',
+    mobile: '+61422416086‬',
+    address: "0x65bDdE6a9D492dD80864Ca7e0c4d7a210fC33F6a",
+    // status: 'confirmed',
+    device: {},
+    info: {
+      geora_actor_id: "8b58349d-57de-4406-acc3-bd7c32936a7d"
+    }
   }
 ]
 
