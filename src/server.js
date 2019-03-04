@@ -36,7 +36,6 @@ aws.config.update({
 
 const s3 = new aws.S3();
 
-// keep
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -51,13 +50,13 @@ const upload = multer({
   })
 })
 
-<<<<<<< HEAD
 app.get('/accounts', async (req, res) => {
   var { Account } = require('./models')
   var accounts = await Account.query()
 
   res.send(accounts)
-=======
+})
+
 const singleUpload = upload.single('image')
 
 const saveTemp = function(req, res, next) {
@@ -106,28 +105,10 @@ app.post('/image-upload', function(req, res) {
       console.log('s3', data);
     }
   });
-
-  // req.file(filePath).upload(function (err, uploadedFiles) {
-  //   if (err) return res.serverError(err);
-  //   console.log("uploadedfiles "+ uploadedFiles.length);
-  //   return res.json({
-  //     message: uploadedFiles.length + ' file(s) uploaded successfully!',
-  //     files: uploadedFiles
-  //   });
-  // });
-
-  // singleUpload(req, res, function(err, some) {
-  //   if (err) {
-  //     return res.status(422).send({ errors: [{title: 'Image Upload Error', detail: err.message}] });
-  //   }
-  //
-  //   return res.json({ 'imageUrl': req.file.location });
-  // });
 })
 
 app.get('/', (req, res) => {
   res.send('Oink, Oink... ')
->>>>>>> upload works, needs refactoring
 })
 
 app.listen(PORT, () => {
