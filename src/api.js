@@ -25,7 +25,7 @@ const API = {
     let result;
 
     if (id.toString().includes('0x')) {
-      result = await scope.findByAddress(id)
+      result = (await scope.where({ address: id }))[0]
     } else {
       result = await scope.findById(id)
     }
@@ -69,21 +69,29 @@ const API = {
 
     @return Account
   */
-  createAccount(name, mobile, device) {
+  async createAccount({ name, mobile, device }) {
+    console.log('createAccount', name, mobile, device)
     var mobileNumber = (n) => phoneUtil.format(phoneUtil.parse(n), PNF.E164)
 
     // parse
     mobile = mobileNumber(mobile)
-    let account = accounts.find(a => mobileNumber(a.mobile) == mobile)
+
+    let account = (await Account.query().where('mobile', mobile))[0]
 
     if (!account) {
-      account = { name, mobile }
-      account.id = accounts.length + 1
-      account.address = this.wallet(account.id).getChecksumAddressString()
+      account = { name, mobile, device }
+      // account.id = accounts.length + 1
+      // account.address = this.wallet(account.id).getChecksumAddressString()
+      account.address = "0x0"
       account.code = Math.floor(Math.random()*900000) + 100000
-      account.status = 'new'
+      // account.status = 'new'
 
-      accounts.push(account)
+      return Account.query().insert(account).then(a => {
+        return Account.query().update({
+          address: API.wallet(a.id).getChecksumAddressString()
+        }).where('id', a.id)
+      })
+      // accounts.push(account)
     }
 
     return Promise.resolve(account)

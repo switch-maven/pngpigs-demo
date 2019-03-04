@@ -1,6 +1,5 @@
 const accounts = [
   {
-    id: 1,
     name: 'Taylor Luk',
     mobile: '+61415882430',
     address: '0xe208bCa65772f8da0bb7D1D4f671440174506855',
@@ -12,7 +11,6 @@ const accounts = [
   },
 
   {
-    id: 2,
     name: 'Mark guo',
     mobile: '+61422416086‬',
     address: "0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614",
