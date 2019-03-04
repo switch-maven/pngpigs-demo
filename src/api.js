@@ -1,4 +1,6 @@
-const { accounts, assets } = require('../tmp/fake-data')
+const { accounts, assets, events } = require('../db/seed-data')
+
+const { Account, Asset, Event } = require('./models')
 
 const HDKey = require('ethereumjs-wallet/hdkey')
 
@@ -11,18 +13,30 @@ const API = {
   bip32: "xpub661MyMwAqRbcF6fv4aocvHMpGQW9MeyhFfxGyeASvStzBe5Wb7WxS1cE2PmxpcEh8kn2qEJJr2Dgvqevze7bSyfCExrv7jFcyBqoWkwYU3c",
 
   /* Read / Query */
-
   accounts() {
-    return accounts
+    return Account.query()
   },
 
+  //
   // Account id or address 0x0000
-  account({ id }) {
-    return accounts.find(a => a.id == id || a.address == id)
+  // Account(id: "")
+  async account({ id }) {
+    let scope = Account.query().eager({ assets: true })
+    let result;
+
+    if (id.toString().includes('0x')) {
+      result = await scope.findByAddress(id)
+    } else {
+      result = await scope.findById(id)
+    }
+
+    return result
   },
 
   assets() {
-    return assets
+    console.log("API > Assets", arguments)
+
+    return Asset.query()
   },
 
   // Asset Id = Symbol:token_id
@@ -31,17 +45,17 @@ const API = {
   // LAND:123456
   asset({ id }) {
     let symbol;
-
+    let scope = Asset.query().eager({events: true});
     if (id.includes(':')) {
       ;[symbol, id] = id.split(':')
     }
-    let asset = assets.find(a => a.id = id)
 
-    if (asset) {
-      return Promise.resolve(asset)
-    } else {
-      return Promise.reject({ reason: `Can not find asset by ${id}`})
-    }
+    return scope.findById(id).then(a => {
+      a.events.forEach((e, i) => {
+        e.data = JSON.stringify(e.data)
+      })
+      return a
+    })
   },
 
   /* Mutate/transactional */

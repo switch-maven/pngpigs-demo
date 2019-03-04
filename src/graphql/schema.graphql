@@ -67,12 +67,23 @@ input Registration {
 }
 
 input Updatable {
-  id: String!
-  image: String
-  weight: Int
-  diet: [String]
-  medications: String
-  incidents: [String]
+  id: String!,
+  image: String,
+  location: [Int],
+
+  "Livestock weight in grams"
+  weight: Int,
+  diet: [String],
+  medications: [String],
+
+  "has incident (injury, disease, pregnant, birth, death)"
+  incident: String,
+
+  # Rate attributes
+  death_place: String
+  death_time: Timestamp
+  name: String
+  description: String
 }
 
 type Query {
@@ -113,14 +124,25 @@ type Account {
 
 """
 type Event {
+  id: Int,
+
   "Birth, Death, Update (has incident, disease, pragment, birth), Transfer"
   name: String!,
+
+  "type of event (reserved)",
+  type: String,
 
   "JSON encoded data blurb"
   data: String,
 
+  "Blockchain Transactino id"
+  txid: String,
+
+  "User initiated signiture"
+  signiture: String,
+
   "Unix timestamp or ISO8601 time"
-  time: Timestamp!
+  time: Timestamp
 }
 
 type LivestockAsset {
@@ -149,7 +171,7 @@ type LivestockAsset {
   birth_place: String,
   gender: String,
   breed: String,
-  skin: [String],
+  skin: String,
 
   origin: String,
   parents: [LivestockAsset],
@@ -168,7 +190,7 @@ type LivestockAsset {
   weights: [Float]
   prices: [Float]
 
-  # All medication has been administrated
+  #
   death_place: String
   death_date: Timestamp
 }

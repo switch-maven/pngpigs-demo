@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
     table.string('mobile').notNullable();
 
     table.json('device');
+    table.json('info');
 
     table.string('code')
     table.timestamp('confirmed_at')
@@ -17,18 +18,26 @@ exports.up = function(knex, Promise) {
 
 
   var assets = knex.schema.createTable('assets', function(table) {
+
     table.increments();
 
-    table.integer('owner_id').unsigned().references('accounts.id');
+    table.integer('account_id').unsigned()
 
     table.string('uid').notNullable();
     table.string('type').notNullable();
     table.string('name');
+    table.string('image');
+    table.string('description');
 
     table.string('gender');
     table.string('origin');
     table.string('breed');
     table.string('skin');
+
+    table.specificType('diet', 'text ARRAY');
+    table.specificType('medications', 'text ARRAY');
+
+    table.json('location').defaultTo([])
 
     table.float('weight');
     table.float('price');
@@ -41,6 +50,10 @@ exports.up = function(knex, Promise) {
     table.string('death_place')
     table.timestamp('death_date');
 
+    // Caches
+    table.json('prices').defaultTo([])
+    table.json('weights').defaultTo([])
+
     table.timestamp('created_at').defaultTo(knex.fn.now())
     table.timestamp('updated_at').defaultTo(knex.fn.now())
   });
@@ -48,13 +61,13 @@ exports.up = function(knex, Promise) {
   var events = knex.schema.createTable('events', function(table) {
     table.increments();
 
-    table.integer('account_id').unsigned().references('accounts.id');
-    table.integer('asset_id').unsigned().references('assets.id');
+    table.integer('account_id').unsigned() //.references('accounts.id');
+    table.integer('asset_id').unsigned() //.references('assets.id');
 
-    table.string('type').notNullable();
     table.string('name').notNullable();
+    table.string('type');
 
-    table.json('data');
+    table.json('data')
 
     table.string('txid');
     table.string('signiture');
@@ -68,8 +81,7 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('accounts'),
     knex.schema.dropTable('events'),
-    knex.schema.dropTable('assets') ])
+    knex.schema.dropTable('assets'), knex.schema.dropTable('accounts')])
 
 };

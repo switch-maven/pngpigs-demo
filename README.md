@@ -19,6 +19,7 @@ DB migrations
 
 ```
 knex migration:latest
+knex seed:run
 ```
 
 Gateway
