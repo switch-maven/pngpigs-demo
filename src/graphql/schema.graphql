@@ -15,7 +15,7 @@ input Device {
   model: String!,
 
   "Taylor Luk's iPhone"
-  name: String!,
+  name: String,
 
   "device locale for internationalisation"
   locale: String,
