@@ -31,15 +31,17 @@ app.use(morgan('dev'))
 aws.config.update({
     secretAccessKey: process.env.S3_ACCESS_KEY_SECRET,
     accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    region: 'ap-southeast-1' // region of your bucket
+    region: 'ap-southeast-1'
 });
 
 const s3 = new aws.S3();
 
+const bucketName = 'png.switchmaven.com';
+
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'png.switchmaven.com',
+    bucket: bucketName,
     acl: 'public-read',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
@@ -62,7 +64,7 @@ const singleUpload = upload.single('image')
 const saveTemp = function(req, res, next) {
   var fileName = req.headers["file-name"];
 
-  var wstream = fs.createWriteStream("./src/tmp/images/" + fileName);
+  var wstream = fs.createWriteStream("./tmp/" + fileName);
 
   req.on('data', function(chunk) {
     wstream.write(chunk);
@@ -87,9 +89,9 @@ app.post('/image-upload', function(req, res) {
   console.log('filePath', filePath)
 
   const folder = ("images/");
-  const file = (`pig-${new Date()}.jpg`);
+  const file = (`pig-${Date.now()}.jpg`);
   const params = {
-    Bucket: 'png.switchmaven.com',
+    Bucket: bucketName,
     Key: (folder + file),
     ACL: 'public-read',
     Body: filePath
@@ -105,6 +107,8 @@ app.post('/image-upload', function(req, res) {
       console.log('s3', data);
     }
   });
+  const s3URL = `https://s3-ap-southeast-1.amazonaws.com/${bucketName}/images/${file}`
+  console.log('found at', s3URL)
 })
 
 app.get('/', (req, res) => {
