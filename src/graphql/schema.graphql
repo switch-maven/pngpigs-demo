@@ -107,6 +107,12 @@ type Mutation {
   update(account: String!, asset_id: String!, data: Updatable! ): LivestockAsset
 }
 
+# Time series data [{time, value}, {time,value}]
+type TimeValue {
+  time: Timestamp
+  value: Float
+}
+
 type Account {
   id: String
   name: String
@@ -178,6 +184,7 @@ type LivestockAsset {
 
   location: [Int],
   weight: Float,
+  price: Float,
 
   diet: [String],
   medication: [String],
@@ -187,8 +194,8 @@ type LivestockAsset {
 
   # Convinent way to access through relations
   images: [String],
-  weights: [Float]
-  prices: [Float]
+  weights: [TimeValue]
+  prices: [TimeValue]
 
   #
   death_place: String

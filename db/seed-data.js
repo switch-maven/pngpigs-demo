@@ -146,6 +146,7 @@ var events = [
       image: "http://localhost:3000/0x888/1/1.jpg",
       locatoin: [58.9546942,14.8556286],
       weight: 2000,
+      birth_date: '2018-11-01 00:00:00.000'
     },
     txid: undefined,
     signiture: undefined,
@@ -176,6 +177,7 @@ var events = [
     data: {
       image: "http://localhost:3000/0x888/2/1.jpg",
       location: [55.7977312,11.9881085],
+      birth_date: '2018-12-01 00:00:00.000',
       weight: 2000,
     },
     txid: undefined,
