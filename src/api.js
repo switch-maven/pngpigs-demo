@@ -88,7 +88,7 @@ const API = {
 
     return new Promise((resolve, reject) => {
       if (!existing || mismatch) {
-        const account = { name, mobile }
+        const account = { name, mobile, device }
         // account.id = accounts.length + 1
         // account.address = this.wallet(account.id).getChecksumAddressString()
 
