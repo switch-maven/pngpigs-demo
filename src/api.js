@@ -79,10 +79,10 @@ const API = {
     mobile = mobileNumber(mobile)
 
     let existing = (await Account.query().where('mobile', mobile))[0]
-    let mismatch = device.uid != existing.device.uid
+    let mismatch = existing && device.uid != existing.device.uid
 
 
-    console.log('createAccount', mobile, existing.device.uid, device.uid)
+    console.log('createAccount', mobile, existing && existing.device.uid, device.uid)
 
     return new Promise((resolve, reject) => {
 
