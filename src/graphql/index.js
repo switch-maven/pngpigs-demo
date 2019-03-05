@@ -14,7 +14,9 @@ module.exports = express_graphql({
     account: API.account,
     accounts: API.accounts,
     createAccount: API.createAccount,
-    verifyAccount: API.verifyAccount
+    verifyAccount: API.verifyAccount,
+
+    register: API.register
   },
   graphiql: true,
   formatError: error => ({

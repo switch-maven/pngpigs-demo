@@ -49,7 +49,7 @@ input Registration {
   name: String!,
 
   "Latest image",
-  image: String!,
+  image: String,
 
   "Age can be used to approximate a exact birth_date, when a pig is registered after birth"
   age: Float,
@@ -62,17 +62,17 @@ input Registration {
   skin: String!
   parents: [String]
 
-  weight: Int!
-  location: [Int]
+  weight: Float!
+  location: [Float]
 }
 
 input Updatable {
   id: String!,
   image: String,
-  location: [Int],
+  location: [Float],
 
   "Livestock weight in grams"
-  weight: Int,
+  weight: Float,
   diet: [String],
   medications: [String],
 
@@ -101,7 +101,7 @@ type Mutation {
   verifyAccount(id:String!, code: String!, device: Device): Account,
 
   "Register a live stock, id can be account id or address (1 or 0x111)"
-  register(account: String!, data: Registration! ): LivestockAsset,
+  register(account_id: String!, asset: Registration! ): LivestockAsset,
 
   "Provide a update on a live stock, unique asset id (PNG:1)"
   update(account: String!, asset_id: String!, data: Updatable! ): LivestockAsset
@@ -183,7 +183,7 @@ type LivestockAsset {
   origin: String,
   parents: [LivestockAsset],
 
-  location: [Int],
+  location: [Float],
   weight: Float,
   price: Float,
 

@@ -46,7 +46,6 @@ const assets = [
   {
     account_id: 1,
 
-    id: 1,
     uid: 'PNG:1',
 
     name: 'KNORRIG',
@@ -88,7 +87,6 @@ const assets = [
   {
     account_id: 2,
 
-    id: 2,
     uid: 'PNG:2',
 
     name: 'KELGRIS',

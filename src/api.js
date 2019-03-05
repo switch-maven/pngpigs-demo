@@ -29,7 +29,7 @@ const API = {
     } else if (id.toString().includes('0x')) {
       result = (await scope.where({ address: id }))[0]
     } else {
-      result = await scope.findById(id)
+      result = await scope.findById(+id)
     }
 
     return result
@@ -71,7 +71,7 @@ const API = {
     @return Account
   */
   async createAccount ({ name, mobile, device }) {
-    var mobileNumber = n => phoneUtil.format(phoneUtil.parse(n), PNF.E164)
+    const mobileNumber = n => phoneUtil.format(phoneUtil.parse(n), PNF.E164)
 
     // parse
     mobile = mobileNumber(mobile)
@@ -100,20 +100,28 @@ const API = {
           Object.assign(account, {
             id: a.id,
             address: address,
-            code: Math.floor(Math.random()*900000) + 100000
+            code: Math.floor(Math.random() * 900000) + 100000
           })
 
-          return Account.query().update(account).where('id', a.id).then(() => {
-            resolve(account)
-          })
+          return Account.query()
+            .update(account)
+            .where('id', a.id)
+            .then(() => {
+              resolve(account)
+            })
         }
 
         // if no address, set default
-        account.address = account.address || "0x0"
+        account.address = account.address || '0x0'
         // account.status = 'new'
 
         if (existing) {
-          console.log("Update existing account to current device", existing, account, device)
+          console.log(
+            'Update existing account to current device',
+            existing,
+            account,
+            device
+          )
           // is existing === account
           updateAccount(existing)
         } else {
@@ -122,21 +130,20 @@ const API = {
             .insert(account)
             .then(updateAccount)
         }
-
       } else {
         // existing account
         console.log('existing account looks ok')
         resolve(existing)
       }
-    }).then((account) => {
-        // if account has code, send code to mobile
-        if (account.code) {
-          // send sms
-          Account.sendVerification(account.mobile, account.code)
-            .then(res => console.log('plivo res', res))
-            .catch(err => console.log('plivo err', err))
-        }
-        return account
+    }).then(account => {
+      // on production, if account has code, send code to mobile
+      if (process.env.NODE_ENV === 'production' && account.code) {
+        // send sms
+        Account.sendVerification(account.mobile, account.code)
+          .then(res => console.log('plivo res', res))
+          .catch(err => console.log('plivo err', err))
+      }
+      return account
     })
   },
 
@@ -167,7 +174,27 @@ const API = {
   },
 
   // Livestock
-  register (address, registration) {},
+  async register ({ account_id, asset }) {
+    const account = await this.account({ id: account_id })
+    if (!account) { return }
+
+    const existing = (await Asset.query().where('uid', asset.uid))[0]
+
+    return new Promise((resolve, reject) => {
+      if (!existing) {
+        asset.account_id = account.id
+
+        console.log('Create new asset')
+        Asset.query()
+          .insert(asset)
+          .then((res) => resolve(res))
+      } else {
+        // existing asset
+        console.log('existing asset')
+        reject(new Error('existing asset'))
+      }
+    })
+  },
 
   update (address, assetId, updatable) {
     // authorize user
