@@ -6,39 +6,39 @@ const accounts = [
     // status: 'confirmed',
     device: {},
     info: {
-      geora_actor_id: "8b58349d-57de-4406-acc3-bd7c32936a7d"
+      geora_actor_id: '8b58349d-57de-4406-acc3-bd7c32936a7d'
     }
   },
 
   {
     name: 'Mark guo',
     mobile: '+61422416086‬',
-    address: "0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614",
+    address: '0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614',
     // status: 'confirmed',
     device: {},
     info: {
-      geora_actor_id: "8b58349d-57de-4406-acc3-bd7c32936a7d"
+      geora_actor_id: '8b58349d-57de-4406-acc3-bd7c32936a7d'
     }
   },
 
   {
     name: 'Jamie Cerexhe',
     mobile: '+61422416086‬',
-    address: "0x65bDdE6a9D492dD80864Ca7e0c4d7a210fC33F6a",
+    address: '0x65bDdE6a9D492dD80864Ca7e0c4d7a210fC33F6a',
     // status: 'confirmed',
     device: {},
     info: {
-      geora_actor_id: "8b58349d-57de-4406-acc3-bd7c32936a7d"
+      geora_actor_id: '8b58349d-57de-4406-acc3-bd7c32936a7d'
     }
   }
 ]
 
 const registry = {
   'PNG:*': {
-    name: "Pigchain for Puapa New Guini",
+    name: 'Pigchain for Puapa New Guini',
     symbol: 'PNG',
     decimals: 16,
-    contract: '0x',
+    contract: '0x'
   }
 }
 
@@ -47,11 +47,12 @@ const assets = [
     account_id: 1,
 
     id: 1,
-    uid: "PNG:1",
+    uid: 'PNG:1',
 
     name: 'KNORRIG',
     image: 'http://localhost:3000/0x888/1/1.jpg',
-    description: "Oink, Oink, KNORRIG Soft toy Pig from Sweden is the Genesis Pig from Sweden",
+    description:
+      'Oink, Oink, KNORRIG Soft toy Pig from Sweden is the Genesis Pig from Sweden',
 
     type: 'Pig',
 
@@ -59,7 +60,7 @@ const assets = [
     birth_date: '2018-12-01 00:00:00.000',
 
     origin: 'Sweden',
-    breed: "Soft toy",
+    breed: 'Soft toy',
     // parents: [],
 
     skin: 'Pink',
@@ -67,20 +68,20 @@ const assets = [
     weight: 0.3,
     price: 5,
 
-    diet: ["mashed potato"],
-    medications: ["test", "test2"],
+    diet: ['mashed potato'],
+    medications: ['test', 'test2'],
     weights: [
-      {time: 1533045600000, value: 6},
-      {time: 1538316000000, value: 12},
-      {time: 1543582800000, value: 19},
-      {time: 1519822800000, value: 31},
+      { time: 1533045600000, value: 6 },
+      { time: 1538316000000, value: 12 },
+      { time: 1543582800000, value: 19 },
+      { time: 1519822800000, value: 31 }
     ],
 
     prices: [
-      {time: 1533045600000, value: 32.5},
-      {time: 1538316000000, value: 42},
-      {time: 1543582800000, value: 55},
-      {time: 1519822800000, value: 80},
+      { time: 1533045600000, value: 32.5 },
+      { time: 1538316000000, value: 42 },
+      { time: 1543582800000, value: 55 },
+      { time: 1519822800000, value: 80 }
     ]
   },
 
@@ -88,11 +89,12 @@ const assets = [
     account_id: 1,
 
     id: 2,
-    uid: "PNG:2",
+    uid: 'PNG:2',
 
     name: 'KELGRIS',
     image: 'http://localhost:3000/0x888/1/2.jpg',
-    description: 'good at hugging, comforting and listening and are fond of play and mischief',
+    description:
+      'good at hugging, comforting and listening and are fond of play and mischief',
 
     type: 'Pig',
 
@@ -108,17 +110,17 @@ const assets = [
     diet: ['potato'],
 
     weights: [
-      {time: 1533045600000, value: 6},
-      {time: 1538316000000, value: 12},
-      {time: 1543582800000, value: 19},
-      {time: 1519822800000, value: 31},
+      { time: 1533045600000, value: 6 },
+      { time: 1538316000000, value: 12 },
+      { time: 1543582800000, value: 19 },
+      { time: 1519822800000, value: 31 }
     ],
 
     prices: [
-      {time: 1533045600000, value: 32.5},
-      {time: 1538316000000, value: 42},
-      {time: 1543582800000, value: 55},
-      {time: 1519822800000, value: 80},
+      { time: 1533045600000, value: 32.5 },
+      { time: 1538316000000, value: 42 },
+      { time: 1543582800000, value: 55 },
+      { time: 1519822800000, value: 80 }
     ]
   }
 ]
@@ -139,12 +141,12 @@ var events = [
     id: 1,
     asset_id: 1,
     account_id: 1,
-    name: "Register",
-    type: "blockchain",
+    name: 'Register',
+    type: 'blockchain',
 
     data: {
-      image: "http://localhost:3000/0x888/1/1.jpg",
-      locatoin: [58.9546942,14.8556286],
+      image: 'http://localhost:3000/0x888/1/1.jpg',
+      locatoin: [58.9546942, 14.8556286],
       weight: 2000,
       birth_date: '2018-11-01 00:00:00.000'
     },
@@ -157,11 +159,11 @@ var events = [
     id: 2,
     asset_id: 2,
     account_id: 1,
-    type: "blockchain",
-    name: "Update",
+    type: 'blockchain',
+    name: 'Update',
     data: {
-      image: "http://localhost:3000/0x888/1/2.jpg",
-      weight: 4500,
+      image: 'http://localhost:3000/0x888/1/2.jpg',
+      weight: 4500
     },
     txid: undefined,
     signiture: undefined,
@@ -172,13 +174,13 @@ var events = [
     id: 3,
     asset_id: 2,
     account_id: 2,
-    type: "blockchain",
-    name: "Register",
+    type: 'blockchain',
+    name: 'Register',
     data: {
-      image: "http://localhost:3000/0x888/2/1.jpg",
-      location: [55.7977312,11.9881085],
+      image: 'http://localhost:3000/0x888/2/1.jpg',
+      location: [55.7977312, 11.9881085],
       birth_date: '2018-12-01 00:00:00.000',
-      weight: 2000,
+      weight: 2000
     },
     txid: undefined,
     signiture: undefined,
@@ -189,12 +191,12 @@ var events = [
     id: 4,
     asset_id: 2,
     account_id: 2,
-    type: "blockchain",
-    name: "Update",
+    type: 'blockchain',
+    name: 'Update',
     data: {
-      image: "http://localhost:3000/0x888/2/2.jpg",
-      location: [55.7977312,11.9881085],
-      weight: 3000,
+      image: 'http://localhost:3000/0x888/2/2.jpg',
+      location: [55.7977312, 11.9881085],
+      weight: 3000
     },
     txid: undefined,
     signiture: undefined,
@@ -205,12 +207,12 @@ var events = [
     id: 5,
     asset_id: 1,
     account_id: 1,
-    type: "blockchain",
-    name: "Transfer",
+    type: 'blockchain',
+    name: 'Transfer',
     data: {
       // blockchain
-      from: "0xe208bCa65772f8da0bb7D1D4f671440174506855",
-      to: "0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614",
+      from: '0xe208bCa65772f8da0bb7D1D4f671440174506855',
+      to: '0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614',
       token_id: 1,
 
       // database
@@ -218,7 +220,7 @@ var events = [
       to_id: 2,
 
       // merge assets
-      location: [55.7977312,11.9881085],
+      location: [55.7977312, 11.9881085],
       price: 126
     },
     txid: undefined,
@@ -230,12 +232,12 @@ var events = [
     id: 6,
     asset_id: 2,
     account_id: 2,
-    type: "blockchain",
-    name: "Transfer",
+    type: 'blockchain',
+    name: 'Transfer',
     data: {
       // blockchain
-      from: "0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614",
-      to: "0xe208bCa65772f8da0bb7D1D4f671440174506855",
+      from: '0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614',
+      to: '0xe208bCa65772f8da0bb7D1D4f671440174506855',
       token_id: 2,
 
       // database
@@ -243,7 +245,7 @@ var events = [
       to_id: 1,
 
       // merge assets
-      location: [55.7977312,11.9881085],
+      location: [55.7977312, 11.9881085],
       price: 126
     },
     txid: undefined,

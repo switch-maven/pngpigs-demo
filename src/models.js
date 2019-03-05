@@ -1,13 +1,12 @@
-const { Model } = require('objection');
+const { Model } = require('objection')
 
 class Account extends Model {
-
-  static get tableName() {
-    return 'accounts';
+  static get tableName () {
+    return 'accounts'
   }
 
   // This object defines the relations to other models.
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       assets: {
         relation: Model.HasManyRelation,
@@ -24,12 +23,12 @@ class Account extends Model {
 }
 
 class Asset extends Model {
-  static get tableName() {
-    return 'assets';
+  static get tableName () {
+    return 'assets'
   }
 
   // This object defines the relations to other models.
-  static get relationMappings() {
+  static get relationMappings () {
     return {
       events: {
         relation: Model.HasManyRelation,
@@ -46,19 +45,21 @@ class Asset extends Model {
 }
 
 class Event extends Model {
-  static get tableName() {
-    return 'events';
+  static get tableName () {
+    return 'events'
   }
 
-  static get virtualAttributes() {
-    return ['time'];
+  static get virtualAttributes () {
+    return ['time']
   }
 
-  time() {
+  time () {
     return this.created_at
   }
 }
 
 module.exports = {
-  Account, Asset, Event
+  Account,
+  Asset,
+  Event
 }
