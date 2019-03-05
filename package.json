@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "db:rollback": "knex migrate:rollback",
+    "db:migrate": "knex migrate:latest",
+    "db:seed": "knex seed:run",
+    "db:reload": "npm run db:rollback && npm run db:migrate && npm run db:seed"
   },
   "engines": {
     "node": "10.x"
