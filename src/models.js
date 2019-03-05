@@ -1,8 +1,18 @@
-const { Model } = require('objection')
+const { Model } = require('objection');
+const plivo = require('plivo');
 
 class Account extends Model {
   static get tableName () {
     return 'accounts'
+  }
+
+  static sendVerification(mobile, code) {
+    const client = new plivo.Client();
+    return client.messages.create(
+      "610402540888", // src (should create a number, PNG not supported in Plivo)
+      mobile, // dst (destination)
+      `Your verification code is ${code} for phone number ${mobile}.`, // text
+    )
   }
 
   // This object defines the relations to other models.

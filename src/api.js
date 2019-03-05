@@ -97,27 +97,24 @@ const API = {
         const updateAccount = a => {
           const address = API.wallet(a.id).getChecksumAddressString()
 
-          account.address = address
-          account.id = a.id
+          Object.assign(account, {
+            id: a.id,
+            address: address,
+            code: Math.floor(Math.random()*900000) + 100000
+          })
 
-          return Account.query()
-            .update({ address: address })
-            .where('id', a.id)
-            .then(() => {
-              resolve(account)
-            })
+          return Account.query().update(account).where('id', a.id).then(() => {
+            resolve(account)
+          })
         }
 
-        account.address = account.address || '0x0'
-        account.code = Math.floor(Math.random() * 900000) + 100000
+        // if no address, set default
+        account.address = account.address || "0x0"
         // account.status = 'new'
 
         if (existing) {
-          console.log(
-            'Update existing account to current device',
-            existing,
-            device
-          )
+          console.log("Update existing account to current device", existing, account, device)
+          // is existing === account
           updateAccount(existing)
         } else {
           console.log('Create new account and bind to device', existing, device)
@@ -126,12 +123,20 @@ const API = {
             .then(updateAccount)
         }
 
-        // accounts.push(account)
       } else {
         // existing account
         console.log('existing account looks ok')
         resolve(existing)
       }
+    }).then((account) => {
+        // if account has code, send code to mobile
+        if (account.code) {
+          // send sms
+          Account.sendVerification(account.mobile, account.code)
+            .then(res => console.log('plivo res', res))
+            .catch(err => console.log('plivo err', err))
+        }
+        return account
     })
   },
 
