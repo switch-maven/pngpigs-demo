@@ -17,8 +17,11 @@ http://localhost:3000/graphql
 DB migrations
 ===
 
+Useful commands
+
 ```
-knex migration:latest
+knex migrate:latest
+knex migrate:rollback
 knex seed:run
 ```
 
