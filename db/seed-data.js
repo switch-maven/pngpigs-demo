@@ -12,7 +12,7 @@ const accounts = [
 
   {
     name: 'Mark guo',
-    mobile: '+61422416086‬',
+    mobile: '+61422416086',
     address: '0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614',
     // status: 'confirmed',
     device: {},
@@ -23,7 +23,7 @@ const accounts = [
 
   {
     name: 'Jamie Cerexhe',
-    mobile: '+61422416086‬',
+    mobile: '+61430443500',
     address: '0x65bDdE6a9D492dD80864Ca7e0c4d7a210fC33F6a',
     // status: 'confirmed',
     device: {},
@@ -86,13 +86,13 @@ const assets = [
   },
 
   {
-    account_id: 1,
+    account_id: 2,
 
     id: 2,
     uid: 'PNG:2',
 
     name: 'KELGRIS',
-    image: 'http://localhost:3000/0x888/1/2.jpg',
+    image: 'http://localhost:3000/0x888/2/1.jpg',
     description:
       'good at hugging, comforting and listening and are fond of play and mischief',
 
@@ -157,7 +157,7 @@ var events = [
 
   {
     id: 2,
-    asset_id: 2,
+    asset_id: 1,
     account_id: 1,
     type: 'blockchain',
     name: 'Update',
