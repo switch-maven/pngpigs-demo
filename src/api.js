@@ -97,7 +97,7 @@ const API = {
           account.address = address
           account.id = a.id
 
-          return Account.query().update({address: address, device: device}).where('id', a.id).then(() => {
+          return Account.query().update({ address: address }).where('id', a.id).then(() => {
             resolve(account)
           })
         }
@@ -129,16 +129,28 @@ const API = {
   /*
     code: string
   */
-  confirmAccount(address, code) {
-    let account = accounts.find(a => a.address === address)
+  async verifyAccount({ id, code, device }) {
 
-    if (account.code == code) {
-      account.status = 'confirmed'
-      account.confirmed_at = Time.now()
-      return Promise.resolve(account)
-    } else {
-      return Project.reject({ reason: "Invalid verification code"})
-    }
+    let account = await this.account({ id: id || address })
+
+    return new Promise((resolve, reject) => {
+      if (account.code == code) {
+
+        // Update confirmed at, mark code as null
+        Object.assign(account, {
+          code: null,
+          confirmed_at: new Date(),
+          device: device
+        })
+
+        let updateConfirmed = Account.query().update(account).where('id', account.id)
+
+        updateConfirmed.then(() => resolve(account))
+      } else {
+        reject({ reason: "Invalid verification code"})
+      }
+    })
+
   },
 
   // Livestock

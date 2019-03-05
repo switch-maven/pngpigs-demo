@@ -98,7 +98,7 @@ type Mutation {
   createAccount(name: String!, mobile: String!, device: Device!): Account,
 
   "SMS Verification code with a account id or address (1 or 0x111)"
-  verifyAccount(account:String!, code: String!): Account,
+  verifyAccount(id:String!, code: String!, device: Device): Account,
 
   "Register a live stock, id can be account id or address (1 or 0x111)"
   register(account: String!, data: Registration! ): LivestockAsset,
@@ -149,6 +149,7 @@ type Event {
 
   "Unix timestamp or ISO8601 time"
   time: Timestamp
+
 }
 
 type LivestockAsset {
@@ -187,7 +188,7 @@ type LivestockAsset {
   price: Float,
 
   diet: [String],
-  medication: [String],
+  medications: [String],
 
   owner: [Account],
   events: [Event],
