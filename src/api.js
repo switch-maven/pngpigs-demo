@@ -77,7 +77,9 @@ const API = {
     mobile = mobileNumber(mobile)
 
     const existing = (await Account.query().where('mobile', mobile))[0]
-    const mismatch = existing && existing.device && device.uid !== existing.device.uid
+
+    const mismatch =
+      existing && existing.device && device.uid !== existing.device.uid
 
     console.log(
       'createAccount',
@@ -88,7 +90,7 @@ const API = {
 
     return new Promise((resolve, reject) => {
       if (!existing || mismatch) {
-        const account = { name, mobile, device }
+        const account = { name, mobile }
         // account.id = accounts.length + 1
         // account.address = this.wallet(account.id).getChecksumAddressString()
 
@@ -137,10 +139,10 @@ const API = {
     code: string
   */
   async verifyAccount ({ id, code, device }) {
-    const account = await this.account({ id: id || address })
+    const account = await this.account({ id: id })
 
     return new Promise((resolve, reject) => {
-      if (account.code == code) {
+      if (account.code === code) {
         // Update confirmed at, mark code as null
         Object.assign(account, {
           code: null,
@@ -184,7 +186,18 @@ const API = {
 }
 
 // let a = API.createAccount({ name: 'taylor luk', mobile: '+61415882430', device: { uid: "device uuid", model: "iMac", name: "iMac 27"}})
-// let b = API.createAccount({ name: 'Mark Guo', mobile: '+61422416086‬', device: { uid: "device uuid", model: "iMac", name: "iMac 27"}})
+// const b = API.createAccount({
+//   name: 'Mark guo',
+//   mobile: '+61422416086',
+//   device: {
+//     uid: '8196A14F-6FDF-4929-B845-A8DE56801860',
+//     model: 'iPhone',
+//     locale: 'en_US',
+//     system_name: 'iOS',
+//     system_version: '12.1'
+//   }
+// })
+// console.log(b)
 // let c = API.createAccount({ name: 'Jamie', mobile: '+61430443500', device: { uid: "device uuid", model: "iMac", name: "iMac 27"}})
 // //
 // let d = API.createAccount({ name: 'Ramen', mobile: '+61402540888', device: { uid: "device uuid", model: "Surface", name: "win 10"}})
