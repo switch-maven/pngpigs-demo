@@ -16,5 +16,11 @@ module.exports = express_graphql({
     createAccount: API.createAccount,
     verifyAccount: API.verifyAccount
   },
-  graphiql: true
+  graphiql: true,
+  formatError: error => ({
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack ? error.stack.split('\n') : [],
+    path: error.path
+  })
 })
