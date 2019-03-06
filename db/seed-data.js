@@ -136,7 +136,6 @@ const assets = [
 */
 var events = [
   {
-    id: 1,
     asset_id: 1,
     account_id: 1,
     name: 'Register',
@@ -154,7 +153,6 @@ var events = [
   },
 
   {
-    id: 2,
     asset_id: 1,
     account_id: 1,
     type: 'blockchain',
@@ -169,7 +167,6 @@ var events = [
   },
 
   {
-    id: 3,
     asset_id: 2,
     account_id: 2,
     type: 'blockchain',
@@ -186,7 +183,6 @@ var events = [
   },
 
   {
-    id: 4,
     asset_id: 2,
     account_id: 2,
     type: 'blockchain',
@@ -202,7 +198,6 @@ var events = [
   },
 
   {
-    id: 5,
     asset_id: 1,
     account_id: 1,
     type: 'blockchain',
@@ -227,7 +222,6 @@ var events = [
   },
 
   {
-    id: 6,
     asset_id: 2,
     account_id: 2,
     type: 'blockchain',

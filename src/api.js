@@ -1,11 +1,21 @@
 // const { accounts, assets, events } = require('../db/seed-data')
 
-const { Account, Asset } = require('./models')
+const { Account, Asset, Event } = require('./models')
 
 const HDKey = require('ethereumjs-wallet/hdkey')
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
+
+const bucketName = 'png.switchmaven.com'
+
+const AssetHost =
+  process.env.ASSET_HOST || 'https://s3-ap-southeast-1.amazonaws.com'
+const AssetPath = process.env.ASSET_PATH || `${bucketName}/0x888`
+
+const imagePath = function ({ asset_id, event_id }) {
+  return `${AssetHost}/${AssetPath}/${asset_id}/${event_id || 1}.jpg`
+}
 
 const API = {
   // Extended bip32 keys xpub/xprv
@@ -176,7 +186,9 @@ const API = {
   // Livestock
   async register ({ account_id, asset }) {
     const account = await this.account({ id: account_id })
-    if (!account) { return }
+    if (!account) {
+      return
+    }
 
     const existing = (await Asset.query().where('uid', asset.uid))[0]
 
@@ -185,9 +197,37 @@ const API = {
         asset.account_id = account.id
 
         console.log('Create new asset')
+
+        if (asset.weight) {
+          asset.weights || (asset.weights = [])
+          asset.weights.push({
+            time: Date.now(),
+            value: asset.weight
+          })
+        }
+
         Asset.query()
           .insert(asset)
-          .then((res) => resolve(res))
+          .then(res => {
+            const event = {
+              name: 'Register',
+              asset_id: res.id,
+              account_id: res.account_id,
+              data: {
+                image: imagePath({ asset_id: res.id }),
+                ...asset
+              },
+              created_at: new Date()
+            }
+
+            Event.query()
+              .insert(event)
+              .then(e => {
+                res.events || (res.events = [])
+                res.events.push(e)
+                resolve(res)
+              })
+          })
       } else {
         // existing asset
         console.log('existing asset')
@@ -196,9 +236,48 @@ const API = {
     })
   },
 
-  update (address, assetId, updatable) {
+  async update ({ account_id, asset_id, data }) {
     // authorize user
     // find asset by assetId
+    let asset = await Asset.query().findById(asset_id)
+    Object.assign(asset, data)
+
+    if (asset.weight) {
+      asset.weights || (asset.weights = [])
+      asset.weights.push({
+        time: Date.now(),
+        value: asset.weight
+      })
+    }
+
+    asset = (await Asset.query()
+      .update(asset)
+      .where({ id: asset_id })
+      .returning('*'))[0]
+
+    let event = {
+      name: 'Update',
+      asset_id: asset.id,
+      account_id: asset.account_id,
+      data: {
+        ...data
+      },
+      created_at: new Date()
+    }
+
+    event = await Event.query().insert(event)
+    event.data.image = imagePath({ asset_id: asset.id, event_id: event.id })
+
+    return Event.query()
+      .update(event)
+      .where({ id: event.id })
+      .then(event => {
+        asset.events || (asset.events = [])
+        asset.events.push(event)
+
+        return asset
+      })
+
     // handle image processing if applicable
     // persist to db
     // handle errors

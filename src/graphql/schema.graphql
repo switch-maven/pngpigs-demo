@@ -67,7 +67,7 @@ input Registration {
 }
 
 input Updatable {
-  id: String!,
+  id: String,
   image: String,
   location: [Float],
 
@@ -101,10 +101,10 @@ type Mutation {
   verifyAccount(id:String!, code: String!, device: Device): Account,
 
   "Register a live stock, id can be account id or address (1 or 0x111)"
-  register(account_id: String!, asset: Registration! ): LivestockAsset,
+  register(account_id: String!, asset: Registration!): LivestockAsset,
 
   "Provide a update on a live stock, unique asset id (PNG:1)"
-  update(account: String!, asset_id: String!, data: Updatable! ): LivestockAsset
+  update(account_id: String!, asset_id: String!, data: Updatable!): LivestockAsset
 }
 
 # Time series data [{time, value}, {time,value}]
