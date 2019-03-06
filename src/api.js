@@ -234,7 +234,15 @@ const API = {
     // authorize user
     // find asset by assetId
     let asset = await Asset.query().findById(asset_id)
+
+    const incident = data.incident
+    delete data.incident
+
     Object.assign(asset, data)
+
+    if (incident) {
+      data.incident = incident
+    }
 
     if (asset.weight) {
       asset.weights || (asset.weights = [])
@@ -253,9 +261,7 @@ const API = {
       name: 'Update',
       asset_id: asset.id,
       account_id: asset.account_id,
-      data: {
-        ...data
-      },
+      data,
       created_at: new Date()
     }
 
