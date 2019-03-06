@@ -7,15 +7,7 @@ const HDKey = require('ethereumjs-wallet/hdkey')
 const PNF = require('google-libphonenumber').PhoneNumberFormat
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
-const bucketName = 'png.switchmaven.com'
-
-const AssetHost =
-  process.env.ASSET_HOST || 'https://s3-ap-southeast-1.amazonaws.com'
-const AssetPath = process.env.ASSET_PATH || `${bucketName}/0x888`
-
-const imagePath = function ({ asset_id, event_id }) {
-  return `${AssetHost}/${AssetPath}/${asset_id}/${event_id || 1}.jpg`
-}
+const { imageUrl } = require('./helper/s3')
 
 const API = {
   // Extended bip32 keys xpub/xprv
@@ -192,7 +184,7 @@ const API = {
 
     const existing = (await Asset.query().where('uid', asset.uid))[0]
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (!existing) {
         asset.account_id = account.id
 
@@ -206,27 +198,29 @@ const API = {
           })
         }
 
-        Asset.query()
-          .insert(asset)
-          .then(res => {
-            const event = {
-              name: 'Register',
-              asset_id: res.id,
-              account_id: res.account_id,
-              data: {
-                image: imagePath({ asset_id: res.id }),
-                ...asset
-              },
-              created_at: new Date()
-            }
+        asset = await Asset.query().insert(asset)
+        const image_url = imageUrl({ asset_id: asset.id })
 
-            Event.query()
-              .insert(event)
-              .then(e => {
-                res.events || (res.events = [])
-                res.events.push(e)
-                resolve(res)
-              })
+        asset.image = image_url
+        asset = (await Asset.query().update(asset).where({ id: asset.id }).returning('*'))[0]
+
+        const event = {
+          name: 'Register',
+          asset_id: asset.id,
+          account_id: asset.account_id,
+          data: {
+            image: image_url,
+            ...asset
+          },
+          created_at: new Date()
+        }
+
+        Event.query()
+          .insert(event)
+          .then(e => {
+            asset.events || (asset.events = [])
+            asset.events.push(e)
+            resolve(asset)
           })
       } else {
         // existing asset
@@ -266,7 +260,7 @@ const API = {
     }
 
     event = await Event.query().insert(event)
-    event.data.image = imagePath({ asset_id: asset.id, event_id: event.id })
+    event.data.image = imageUrl({ asset_id: asset.id, event_id: event.id })
 
     return Event.query()
       .update(event)
