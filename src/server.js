@@ -26,9 +26,6 @@ Model.knex(knex)
 
 app.use(express.static('public'))
 
-// const multer = require('multer')
-// const multerS3 = require('multer-s3')
-
 app.use('/graphql', graphqlHandler)
 app.use(morgan('dev'))
 
@@ -39,22 +36,7 @@ aws.config.update({
 })
 
 const s3 = new aws.S3()
-
 const bucketName = 'png.switchmaven.com'
-
-// const upload = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     bucket: bucketName,
-//     acl: 'public-read',
-//     metadata: function (req, file, cb) {
-//       cb(null, { fieldName: file.fieldname })
-//     },
-//     key: function (req, file, cb) {
-//       cb(null, Date.now().toString())
-//     }
-//   })
-// })
 
 app.get('/accounts', async (req, res) => {
   var { Account } = require('./models')
@@ -62,8 +44,6 @@ app.get('/accounts', async (req, res) => {
 
   res.send(accounts)
 })
-
-// const singleUpload = upload.single('image')
 
 const getFilePath = function ({ asset_id, event_id }) {
   const eventID = event_id || 1
@@ -102,7 +82,7 @@ const saveTemp = function (req, res, next) {
   })
 }
 
-// NOTE: add :event_id into image path
+// TODO: add :event_id into image path
 app.post('/image-upload', function (req, res) {
   console.log('query', req.query)
 
@@ -127,7 +107,6 @@ app.post('/image-upload', function (req, res) {
         ContentType: type.mime
       }
 
-      console.log('size', fs.statSync(tmpPath).size)
       console.log('Folder name: ' + filePath)
       console.log('File: ' + fileName)
 
@@ -136,25 +115,28 @@ app.post('/image-upload', function (req, res) {
           console.log('Error: ', err)
         } else {
           console.log('s3', data)
+
+          const s3URL = `https://s3-ap-southeast-1.amazonaws.com/${bucketName}/${filePath}${fileName}`
+          console.log('found at', s3URL)
+
+          Asset.query()
+            .update({ image: s3URL })
+            .where('id', req.query.asset_id)
+            .then(asset => {
+              console.log('updated asset image path', asset)
+
+              res.writeHead(200, 'OK', { 'Content-Type': 'text/html' })
+              res.end()
+
+              fs.unlink(tmpPath + tmpName, err => {
+                if (err) {
+                  console.log(err)
+                }
+                console.log('deleted file:', tmpPath + tmpName)
+              })
+            })
         }
       })
-      const s3URL = `https://s3-ap-southeast-1.amazonaws.com/${bucketName}/${filePath}${fileName}`
-      console.log('found at', s3URL)
-
-      Asset.query()
-        .update({ image: s3URL })
-        .where('id', req.query.asset_id)
-        .then(asset => {
-          console.log('updated asset image path', asset)
-
-          res.writeHead(200, 'OK', { 'Content-Type': 'text/html' })
-          res.end()
-
-          fs.unlink(tmpPath + tmpName, (err) => {
-            if (err) { console.log(err) }
-            console.log('deleted file:', tmpPath + tmpName)
-          })
-        })
     })
     .catch(console.error)
 })
