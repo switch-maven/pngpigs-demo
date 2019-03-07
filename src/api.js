@@ -48,13 +48,16 @@ const API = {
   // CK:1
   // LAND:123456
   asset ({ id }) {
-    let symbol
-    const scope = Asset.query().eager({ events: true })
+    let scope = Asset.query().eager({ events: true })
+
     if (id.includes(':')) {
-      [symbol, id] = id.split(':')
+      scope = scope.where({ uid: id }).first()
+    } else {
+      scope = scope.where({ id: id }).first()
     }
 
-    return scope.findById(id).then(a => {
+    return scope.then(a => {
+      a.events || (a.events = [])
       a.events.forEach((e, i) => {
         e.data = JSON.stringify(e.data)
       })
