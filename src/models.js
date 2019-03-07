@@ -11,7 +11,7 @@ class Account extends Model {
     return client.messages.create(
       "610402540888", // src (should create a number, PNG not supported in Plivo)
       mobile, // dst (destination)
-      `Your verification code is ${code} for phone number ${mobile}.`, // text
+      `${code} is your code for verifying account with phone number ${mobile}.`, // text
     )
   }
 
