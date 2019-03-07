@@ -266,14 +266,23 @@ const API = {
     }
 
     event = await Event.query().insert(event)
-    event.data.image = imageUrl({ asset_id: asset.id, event_id: event.id })
+
+    const image_url = imageUrl({ asset_id: asset.id, event_id: event.id })
+    asset.image = image_url
+    asset = (await Asset.query()
+      .update(asset)
+      .where({ id: asset.id })
+      .returning('*'))[0]
+
+    event.data.image = image_url
 
     return Event.query()
       .update(event)
       .where({ id: event.id })
-      .then(event => {
+      .returning('*')
+      .then(events => {
         asset.events || (asset.events = [])
-        asset.events.push(event)
+        asset.events.push(events[0])
 
         return asset
       })

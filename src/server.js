@@ -71,7 +71,6 @@ const saveTemp = function (req, res, next) {
   })
 }
 
-// TODO: add :event_id into image path
 app.post('/image-upload', function (req, res) {
   console.log('query', req.query)
 
