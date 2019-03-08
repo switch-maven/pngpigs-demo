@@ -128,14 +128,14 @@ const assets = [
     uid: 'PNG:3',
 
     name: 'Pig3',
-    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/1.jpg',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/1.jpg',
     description:
       '',
 
     type: 'Pig',
 
     birth_place: 'Jiwaka-Jimi',
-    birth_date: '2018-11-01 00:00:00.000',
+    birth_date: '2018-10-01 00:00:00.000',
 
     origin: 'Indigenous',
     skin: 'Black',
@@ -165,14 +165,14 @@ const assets = [
     uid: 'PNG:4',
 
     name: 'Pig4',
-    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/2.jpg',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/2.jpg',
     description:
       '',
 
     type: 'Pig',
 
     birth_place: 'Jiwaka-Jimi',
-    birth_date: '2018-11-01 00:00:00.000',
+    birth_date: '2018-10-01 00:00:00.000',
 
     origin: 'Indigenous',
     skin: 'Black',
@@ -202,7 +202,7 @@ const assets = [
     uid: 'PNG:5',
 
     name: 'Pig5',
-    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/3.jpg',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/3.jpg',
     description:
       '',
 
@@ -239,14 +239,14 @@ const assets = [
     uid: 'PNG:6',
 
     name: 'Pig6',
-    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/3.jpg',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/4.jpg',
     description:
       '',
 
     type: 'Pig',
 
     birth_place: 'Jiwaka-Jimi',
-    birth_date: '2018-11-01 00:00:00.000',
+    birth_date: '2018-12-01 00:00:00.000',
 
     origin: 'Indigenous',
     skin: 'Black',
@@ -254,7 +254,7 @@ const assets = [
     weight: 600,
     price: 0,
 
-    diet: ['Potato'],
+    diet: ['Raw Sweet Potato'],
 
     weights: [
       { time: 1533045600000, value: 6 },
@@ -276,7 +276,7 @@ const assets = [
     uid: 'PNG:7',
 
     name: 'Pig7',
-    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/3.jpg',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/3.jpg',
     description:
       '',
 
@@ -329,7 +329,7 @@ var events = [
     type: 'blockchain',
 
     data: {
-      image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/1.jpg',
+      image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/1.jpg',
       location: [58.9546942, 14.8556286],
       weight: 500,
       birth_date: '2018-11-01 00:00:00.000'
@@ -345,7 +345,7 @@ var events = [
     type: 'blockchain',
     name: 'Update',
     data: {
-      image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/2.jpg',
+      image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/2.jpg',
       weight: 900
     },
     txid: undefined,
@@ -375,7 +375,7 @@ var events = [
     type: 'blockchain',
     name: 'Update',
     data: {
-      image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/3.jpg',
+      image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/3.jpg',
       location: [55.7977312, 11.9881085],
       weight: 1300
     },
