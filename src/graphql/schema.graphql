@@ -21,7 +21,7 @@ type Mutation {
   update(account_id: String!, asset_id: String!, data: Updatable!): LivestockAsset,
 
   "Transfer from one account to the next"
-  transfer(account_id: String, asset_id: String!, address: String!, price: Float): LivestockAsset,
+  transfer(account_id: String!, asset_id: String!, address: String!, price: Float!): LivestockAsset,
 
   "Accept transfer of a livestock asset from a sent account"
   acceptTransfer(account_id: String, asset_id: String!): LivestockAsset
@@ -160,6 +160,7 @@ type Event {
 }
 
 type LivestockAsset {
+  account_id: String,
 
   "Unique livestock asset id. (symbol:id) Ex: PNG:0, CK:1"
   uid: String,
