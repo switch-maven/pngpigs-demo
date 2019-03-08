@@ -120,7 +120,11 @@ const assets = [
       { time: 1538316000000, value: 42 },
       { time: 1543582800000, value: 55 },
       { time: 1519822800000, value: 80 }
-    ]
+    ],
+
+    info: {
+      geora_asset_id: 2
+    }
   },
   {
     account_id: 3,
@@ -157,7 +161,11 @@ const assets = [
       { time: 1538316000000, value: 42 },
       { time: 1543582800000, value: 55 },
       { time: 1553822800000, value: 80 }
-    ]
+    ],
+    
+    info: {
+      geora_asset_id: 3
+    }
   },
   {
     account_id: 3,
