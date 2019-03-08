@@ -35,8 +35,8 @@ const accounts = [
 ]
 
 const registry = {
-  'PNG:*': {
-    name: 'Pigchain for Puapa New Guini',
+  'PNG*': {
+    name: 'Pigchain for Papua New Guinea',
     symbol: 'PNG',
     decimals: 16,
     contract: '0x'
@@ -47,7 +47,7 @@ const assets = [
   {
     account_id: 1,
 
-    uid: 'PNG:1',
+    uid: 'DEMO:1',
 
     name: 'KNORRIG',
     image: 'http://localhost:3000/0x888/1/1.jpg',
@@ -88,7 +88,7 @@ const assets = [
   {
     account_id: 2,
 
-    uid: 'PNG:2',
+    uid: 'DEMO:2',
 
     name: 'KELGRIS',
     image: 'http://localhost:3000/0x888/2/1.jpg',
@@ -125,7 +125,7 @@ const assets = [
   {
     account_id: 3,
 
-    uid: 'PNG:3',
+    uid: 'DEMO:3',
 
     name: 'Pig3',
     image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/1.jpg',
@@ -162,7 +162,7 @@ const assets = [
   {
     account_id: 3,
 
-    uid: 'PNG:4',
+    uid: 'DEMO:4',
 
     name: 'Pig4',
     image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/2.jpg',
@@ -199,7 +199,7 @@ const assets = [
   {
     account_id: 3,
 
-    uid: 'PNG:5',
+    uid: 'DEMO:5',
 
     name: 'Pig5',
     image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/3.jpg',
@@ -236,7 +236,7 @@ const assets = [
   {
     account_id: 3,
 
-    uid: 'PNG:6',
+    uid: 'DEMO:6',
 
     name: 'Pig6',
     image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/4.jpg',
@@ -273,7 +273,7 @@ const assets = [
   {
     account_id: 3,
 
-    uid: 'PNG:7',
+    uid: 'DEMO:7',
 
     name: 'Pig7',
     image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/demo/3.jpg',
