@@ -227,18 +227,18 @@ const Geora = {
     })
   },
 
-  confirmTransfer({ asset_address, from_id, to_id, price, currency }) {
+  acceptTransfer({ account_id, swap_address }) {
+    this.account_id = account_id
+
     let query = `
-      mutation (){
-        mutation ($swapAddress: Address!) {
-          approveSwap(swapAddress: $swapAddress ) {
-            swapAddress, buyerApproved, sellerApproved
-          }
+      mutation ($swap_address: Address!) {
+        approveSwap(swapAddress: $swap_address ) {
+          swapAddress, buyerApproved, sellerApproved
         }
       }
     `
-
-    this.query(query, { swapAddress: asset_address })
+    
+    return this.query(query, { swap_address })
   },
 
   // Post QraphQL query

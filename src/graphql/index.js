@@ -19,6 +19,7 @@ module.exports = express_graphql({
     register: API.register,
     update: API.update,
     transfer: API.transfer,
+    acceptTransfer: API.acceptTransfer
   },
   graphiql: true,
   formatError: error => ({

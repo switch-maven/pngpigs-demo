@@ -415,7 +415,10 @@ const API = {
 
     // tx crticial
     asset.account_id = to_account.id
-    event = await Event.query().insert(event)
+
+    await Event.query().insert(event).then((e) => {
+      event.id = e.id
+    })
 
     if (price) {
       asset.prices || (asset.prices = [])
@@ -429,19 +432,67 @@ const API = {
 
       Geora.transfer(geora_transfer).then((res) => {
         if (res.data.approveSwap) {
-          event.data['geora_asset_address'] = res.data.approveSwap.swapAddress
+          Object.assign(asset.info, {
+            geora_swap_address: res.data.approveSwap.swapAddress
+          })
 
-          Event.query().update({ data: event.data }).where({id: event.id}).returning('*').first().then((e) => {
-            console.log("TX: Successful", e)
+          Asset.query().update(asset).where({id}).returning('*').first().then((asset) => {
+            console.log("TX: Successful", asset.info)
           })
         }
       })
+
+      asset.events || (asset.events = [])
+      event.data = JSON.stringify(event.data)
+      asset.events.push(event)
 
       return asset
     })
   },
 
-  confirmTransfer () {},
+  async acceptTransfer ({ account_id, asset_id }) {
+    const id = asset_id
+    const asset = await this.asset({ id })
+    const account = await this.account({ id: account_id })
+
+    // geora
+    let swap_address = asset.info['geora_swap_address']
+
+    if (!swap_address)
+      throw new Error('Transfer has been already accepted')
+
+    let event = {
+      name: 'Accept',
+      asset_id: asset_id,
+      account_id: account_id,
+      data: {
+        token_id: +asset_id,
+
+        // geora
+        geora_swap_address: swap_address
+      },
+      created_at: new Date()
+    }
+
+    await Event.query().insert(event).then((e) => {
+      event.id = e.id
+    })
+
+    return new Promise((resolve, reject) => {
+      Geora.acceptTransfer({ account_id, swap_address }).then((res) => {
+        delete asset.info.geora_swap_address
+
+        Asset.query().update(asset).where({id}).then((a) => {
+          asset.events || (asset.events = [])
+          event.data = JSON.stringify(event.data)
+          asset.events.push(event)
+
+          console.log(asset)
+          resolve(asset)
+        })
+      })
+    })
+  },
 
   // utils
   wallet (index = 0) {
