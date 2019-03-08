@@ -8,6 +8,7 @@ const PNF = require('google-libphonenumber').PhoneNumberFormat
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
 const { imageUrl } = require('./helper/s3')
+const Geora = require('./geora')
 
 const API = {
   // Extended bip32 keys xpub/xprv
@@ -99,14 +100,27 @@ const API = {
         // account.id = accounts.length + 1
         // account.address = this.wallet(account.id).getChecksumAddressString()
 
+        const createGeora = (account) => {
+          return Geora.createAccount(account).then(actor => {
+            console.log("Geora: create account")
+            account.address = actor.address
+            account.info = {
+              'geora_actor_id': actor.id,
+              'geora_actor_address': actor.address
+            }
+            console.dir(account)
+
+            return account
+          })
+        }
+
         const updateAccount = a => {
           const address = API.wallet(a.id).getChecksumAddressString()
 
-          Object.assign(account, {
-            id: a.id,
-            address: address,
-            code: Math.floor(Math.random() * 900000) + 100000
-          })
+          Object.assign(account, a)
+
+          account.code = Math.floor(Math.random() * 900000) + 100000
+          account.address = account.address || address
 
           return Account.query()
             .update(account)
@@ -133,6 +147,7 @@ const API = {
           console.log('Create new account and bind to device', existing, device)
           Account.query()
             .insert(account)
+            .then(createGeora)
             .then(updateAccount)
         }
       } else {
@@ -178,7 +193,26 @@ const API = {
     })
   },
 
-  // Livestock
+  // Livestock related
+
+
+/*
+
+  core liveasset attributes
+
+  liveasset.attributes = {
+    uid:
+    weight:
+    skin:
+    breed:
+  }
+
+  registration = {
+
+  }
+}
+*/
+
   async register ({ account_id, asset }) {
     const account = await this.account({ id: account_id })
     if (!account) {
@@ -186,6 +220,7 @@ const API = {
     }
 
     const existing = (await Asset.query().where('uid', asset.uid))[0]
+
 
     return new Promise(async (resolve, reject) => {
       if (!existing) {
@@ -201,11 +236,28 @@ const API = {
           })
         }
 
+
         asset = await Asset.query().insert(asset)
         const image_url = imageUrl({ asset_id: asset.id })
 
         asset.image = image_url
         asset = (await Asset.query().update(asset).where({ id: asset.id }).returning('*'))[0]
+
+        // Geora
+        Geora.register({
+          account_id: account.info['geora_actor_id'],
+          asset: asset
+        }).then(async (res) => {
+          if (res.data.createAsset) {
+            console.log(res)
+            let { version, systemNonce, address } = res.data.createAsset
+            asset.info['geora_asset_id'] = version
+            asset.info['geora_asset_version'] = systemNonce
+            asset.info['geora_asset_address'] = address
+
+            await Asset.query().update(asset).where({ id: asset.id })
+          }
+        })
 
         const event = {
           name: 'Register',
@@ -235,6 +287,8 @@ const API = {
 
   async update ({ account_id, asset_id, data }) {
     // authorize user
+    const account = await this.account({ id: account_id })
+
     // find asset by assetId
     let asset = await Asset.query().findById(asset_id)
 
@@ -254,6 +308,20 @@ const API = {
         value: asset.weight
       })
     }
+
+    // Geora
+    Geora.update({
+      account_id: account.info['geora_actor_id'],
+      asset_id: asset.info['geora_asset_id'],
+      asset: asset
+    }).then(async (result) => {
+      console.log(result)
+
+      if (result) {
+        console.log(result)
+      }
+    })
+
 
     asset = (await Asset.query()
       .update(asset)

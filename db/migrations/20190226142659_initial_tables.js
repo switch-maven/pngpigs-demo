@@ -51,6 +51,8 @@ exports.up = function (knex, Promise) {
     table.json('prices').defaultTo([])
     table.json('weights').defaultTo([])
 
+    table.json('info').defaultTo('{}')
+
     table.timestamp('created_at').defaultTo(knex.fn.now())
     table.timestamp('updated_at').defaultTo(knex.fn.now())
   })
