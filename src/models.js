@@ -49,6 +49,14 @@ class Asset extends Model {
           from: 'assets.id',
           to: 'events.asset_id'
         }
+      },
+      owner: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Account,
+        join: {
+          from: 'assets.account_id',
+          to: 'accounts.id'
+        }
       }
     }
   }

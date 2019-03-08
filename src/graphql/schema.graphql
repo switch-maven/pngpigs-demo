@@ -1,5 +1,29 @@
 scalar Timestamp
 
+type Query {
+  account(id: String, device_id: String): Account
+  accounts: [Account]
+  asset(id: String!): LivestockAsset
+  assets: [LivestockAsset]
+}
+
+type Mutation {
+  "Name of account, mobile number with country code, device hash"
+  createAccount(name: String!, mobile: String!, device: Device!): Account,
+
+  "SMS Verification code with a account id or address (1 or 0x111)"
+  verifyAccount(id:String!, code: String!, device: Device): Account,
+
+  "Register a live stock, id can be account id or address (1 or 0x111)"
+  register(account_id: String!, asset: Registration!): LivestockAsset,
+
+  "Provide a update on a live stock, unique asset id (PNG:1)"
+  update(account_id: String!, asset_id: String!, data: Updatable!): LivestockAsset,
+
+  "Transfer from one account to the next"
+  transfer(account_id: String, asset_id: String!, address: String!, price: Float): LivestockAsset
+}
+
 """
   Mobile device information
 
@@ -84,27 +108,6 @@ input Updatable {
   death_time: Timestamp
   name: String
   description: String
-}
-
-type Query {
-  account(id: String, device_id: String): Account
-  accounts: [Account]
-  asset(id: String!): LivestockAsset
-  assets: [LivestockAsset]
-}
-
-type Mutation {
-  "Name of account, mobile number with country code, device hash"
-  createAccount(name: String!, mobile: String!, device: Device!): Account,
-
-  "SMS Verification code with a account id or address (1 or 0x111)"
-  verifyAccount(id:String!, code: String!, device: Device): Account,
-
-  "Register a live stock, id can be account id or address (1 or 0x111)"
-  register(account_id: String!, asset: Registration!): LivestockAsset,
-
-  "Provide a update on a live stock, unique asset id (PNG:1)"
-  update(account_id: String!, asset_id: String!, data: Updatable!): LivestockAsset
 }
 
 # Time series data [{time, value}, {time,value}]

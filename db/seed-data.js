@@ -393,15 +393,19 @@ var events = [
       // blockchain
       from: '0xe208bCa65772f8da0bb7D1D4f671440174506855',
       to: '0x44646a5ad31eb79f45C22DbdDeEFfed7BbD2c614',
-      token_id: 1,
+      token_id: 2, // "PNG:1"
 
       // database
       from_id: 1,
       to_id: 2,
+      price: 126,
 
-      // merge assets
-      location: [55.7977312, 11.9881085],
-      price: 126
+      // geora
+      geora_from_id: 1,
+      geora_to_id: 2,
+      geora_asset_id: 1,
+      geora_asset_address: "0xbA20D335E5F93C4536c923268B6BE1A0237B9e03",
+      
     },
     txid: undefined,
     signiture: undefined,
@@ -422,10 +426,14 @@ var events = [
       // database
       from_id: 2,
       to_id: 1,
+      price: 126,
 
-      // merge assets
-      location: [55.7977312, 11.9881085],
-      price: 126
+      // geora
+      geora_from_id: 1,
+      geora_to_id: 2,
+      geora_asset_id: 1,
+      geora_asset_address: "0xbA20D335E5F93C4536c923268B6BE1A0237B9e03",
+
     },
     txid: undefined,
     signiture: undefined,

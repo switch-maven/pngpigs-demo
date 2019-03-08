@@ -159,9 +159,87 @@ const Geora = {
     })
   },
 
-  transfer() {},
+  // $from_id: geora actor id of seller
+  // $to_id: geora actor id of buyer
+  // {
+  //   "data": {
+  //     "createAtomicSwap": {
+  //       "swapAddress": "0xFD5A37c5DB50Ef2ae1e7e0Fe1588C2ca0c7eE830",
+  //       "buyer": {
+  //         "address": "0x9C505ea8B5Df6c0399a150d9A61957e41fD7F999"
+  //       },
+  //       "seller": {
+  //         "name": "Joe Farmer",
+  //         "address": "0x39Fff7e241cc778Ea80dbf0a431c4C49990e6c08"
+  //       },
+  //       "buyerApproved": false,
+  //       "sellerApproved": false
+  //     }
+  //   }
+  // }
+  transfer({ asset_id, from_id, to_id, price, currency }) {
+    this.account_id = from_id
 
-  confirmTransfer() {},
+    let query = `
+      mutation ($from_id: ActorRef!, $to_id: ActorRef!, $asset_id: Int!) {
+        transfer: createAtomicSwap (
+          input: {
+            seller: $from_id
+            buyer: $to_id
+            assets: [{ class: "PIG", version: $asset_id }]
+            tokens: []
+            tokenAmounts: []
+          }
+      ) {
+      	buyer {
+          ... on KnownActor { name, address }
+          ... on UnknownActor { address}
+        }
+      	seller {
+      		... on KnownActor { name, address }
+      		... on UnknownActor { address }
+        }
+        swapAddress, buyerApproved, sellerApproved
+      	}
+      }
+    `
+
+    let approveQuery = `
+      mutation ($swapAddress: Address!) {
+        approveSwap(swapAddress: $swapAddress ) {
+          swapAddress, buyerApproved, sellerApproved
+        }
+      }
+    `
+    return new Promise((resolve, reject) => {
+      this.query(query, { from_id, to_id, asset_id }).then((res) => {
+        console.log("transfer(swap)", res)
+
+        if (res.data.transfer) {
+          let { swapAddress } = res.data.transfer
+
+          this.query(approveQuery, { swapAddress }).then((res) => {
+            console.log("transfer(approve", res)
+            resolve(res)
+          })
+        }
+      })
+    })
+  },
+
+  confirmTransfer({ asset_address, from_id, to_id, price, currency }) {
+    let query = `
+      mutation (){
+        mutation ($swapAddress: Address!) {
+          approveSwap(swapAddress: $swapAddress ) {
+            swapAddress, buyerApproved, sellerApproved
+          }
+        }
+      }
+    `
+
+    this.query(query, { swapAddress: asset_address })
+  },
 
   // Post QraphQL query
   query(query, variables = undefined, params = undefined, headers = undefined) {

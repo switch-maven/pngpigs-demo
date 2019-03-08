@@ -23,14 +23,14 @@ const API = {
   //
   // Account id or address 0x0000
   // Account(id: "")
-  async account ({ id, device_id }) {
+  async account ({ id, device_id, address }) {
     const scope = Account.query().eager({ assets: true })
     let result
 
     if (device_id) {
       result = (await scope.whereRaw('device->>? = ?', ['uid', device_id]))[0]
-    } else if (id.toString().includes('0x')) {
-      result = (await scope.where({ address: id }))[0]
+    } else if (address && address.includes('0x')) {
+      result = (await scope.where({ address: address }))[0]
     } else {
       result = await scope.findById(+id)
     }
@@ -49,7 +49,7 @@ const API = {
   // CK:1
   // LAND:123456
   asset ({ id }) {
-    let scope = Asset.query().eager({ events: true })
+    let scope = Asset.query().eager({ events: true, owner: true })
 
     if (id.includes(':')) {
       scope = scope.where({ uid: id }).first()
@@ -363,7 +363,83 @@ const API = {
     // handle errors
   },
 
-  transfer (address) {},
+  /*
+    Asset id: PNG:1, 1
+    from: from Address
+    to: to addrss
+  */
+  async transfer ({ account_id, asset_id, address, price}) {
+    const id = asset_id
+    const asset = await this.asset({ id })
+    const account = await this.account({ id: account_id })
+    const to_account = await this.account({ address: address })
+
+    if (!to_account)
+      throw new Error("Transfer to account not found")
+
+    if (!asset)
+      throw new Error("Livestock Asset not found")
+
+    if (asset.account_id != account_id )
+      throw new Error("Livestock Asset owner mismatch")
+
+    let geora_transfer = {
+      asset_id: asset.info['geora_asset_id'],
+      from_id: account.info['geora_actor_id'],
+      to_id: to_account.info['geora_actor_id'],
+      price
+    }
+
+    let event = {
+      name: 'Transfer',
+      asset_id: asset_id,
+      account_id: account_id,
+      data: {
+        // Blockchain
+        from: account.address,
+        to: to_account.address,
+        token_id: +asset_id,
+
+        // db
+        from_id: +account_id,
+        to_id: +to_account.id,
+        price,
+
+        // geora
+        geora_from_id: geora_transfer.from_id,
+        geora_to_id: geora_transfer.to_id,
+        geora_asset_id: geora_transfer.asset_id
+      },
+      created_at: new Date()
+    }
+
+    // tx crticial
+    asset.account_id = to_account.id
+    event = await Event.query().insert(event)
+
+    if (price) {
+      asset.prices || (asset.prices = [])
+      asset.prices.push({
+        time: Date.now(),
+        value: price
+      })
+    }
+
+    return Asset.query().update(asset).where({id}).returning('*').first().then((asset) => {
+
+      Geora.transfer(geora_transfer).then((res) => {
+        if (res.data.approveSwap) {
+          event.data['geora_asset_address'] = res.data.approveSwap.swapAddress
+
+          Event.query().update({ data: event.data }).where({id: event.id}).returning('*').first().then((e) => {
+            console.log("TX: Successful", e)
+          })
+        }
+      })
+
+      return asset
+    })
+  },
 
   confirmTransfer () {},
 
