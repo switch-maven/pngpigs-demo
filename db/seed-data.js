@@ -26,7 +26,7 @@ const accounts = [
     mobile: '+61430443500',
     address: '0x65bDdE6a9D492dD80864Ca7e0c4d7a210fC33F6a',
     // status: 'confirmed',
-    device: {"uid":"81e1b044b74aa9da","model":"Android SDK built for x86","locale":"en_US","system_name":"Android","system_version":"9"},
+    device: {"uid":"de2747598655ae3e","model":"SM-G950F","locale":"en_AU","system_name":"Android","system_version":"8.0.0"},
     confirmed_at: new Date(),
     info: {
       geora_actor_id: '8b58349d-57de-4406-acc3-bd7c32936a7d'
@@ -140,7 +140,155 @@ const assets = [
     origin: 'Indigenous',
     skin: 'Black',
 
-    weight: 500,
+    weight: 700,
+    price: 0,
+
+    diet: ['Potato'],
+
+    weights: [
+      { time: 1533045600000, value: 7 },
+      { time: 1538316000000, value: 12 },
+      { time: 1543582800000, value: 19 },
+      { time: 1553822800000, value: 31 }
+    ],
+
+    prices: [
+      { time: 1533045600000, value: 32.5 },
+      { time: 1538316000000, value: 42 },
+      { time: 1543582800000, value: 55 },
+      { time: 1553822800000, value: 80 }
+    ]
+  },
+  {
+    account_id: 3,
+
+    uid: 'PNG:4',
+
+    name: 'Pig4',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/2.jpg',
+    description:
+      '',
+
+    type: 'Pig',
+
+    birth_place: 'Jiwaka-Jimi',
+    birth_date: '2018-11-01 00:00:00.000',
+
+    origin: 'Indigenous',
+    skin: 'Black',
+
+    weight: 550,
+    price: 0,
+
+    diet: ['Potato'],
+
+    weights: [
+      { time: 1533045600000, value: 6 },
+      { time: 1538316000000, value: 12 },
+      { time: 1543582800000, value: 19 },
+      { time: 1519822800000, value: 31 }
+    ],
+
+    prices: [
+      { time: 1533045600000, value: 32.5 },
+      { time: 1538316000000, value: 42 },
+      { time: 1543582800000, value: 55 },
+      { time: 1519822800000, value: 80 }
+    ]
+  },
+  {
+    account_id: 3,
+
+    uid: 'PNG:5',
+
+    name: 'Pig5',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/3.jpg',
+    description:
+      '',
+
+    type: 'Pig',
+
+    birth_place: 'Jiwaka-Jimi',
+    birth_date: '2018-11-01 00:00:00.000',
+
+    origin: 'Indigenous',
+    skin: 'Black',
+
+    weight: 900,
+    price: 0,
+
+    diet: ['Potato'],
+
+    weights: [
+      { time: 1533045600000, value: 6 },
+      { time: 1538316000000, value: 12 },
+      { time: 1543582800000, value: 19 },
+      { time: 1519822800000, value: 31 }
+    ],
+
+    prices: [
+      { time: 1533045600000, value: 32.5 },
+      { time: 1538316000000, value: 42 },
+      { time: 1543582800000, value: 55 },
+      { time: 1519822800000, value: 80 }
+    ]
+  },
+  {
+    account_id: 3,
+
+    uid: 'PNG:6',
+
+    name: 'Pig6',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/3.jpg',
+    description:
+      '',
+
+    type: 'Pig',
+
+    birth_place: 'Jiwaka-Jimi',
+    birth_date: '2018-11-01 00:00:00.000',
+
+    origin: 'Indigenous',
+    skin: 'Black',
+
+    weight: 600,
+    price: 0,
+
+    diet: ['Potato'],
+
+    weights: [
+      { time: 1533045600000, value: 6 },
+      { time: 1538316000000, value: 12 },
+      { time: 1543582800000, value: 19 },
+      { time: 1519822800000, value: 31 }
+    ],
+
+    prices: [
+      { time: 1533045600000, value: 32.5 },
+      { time: 1538316000000, value: 42 },
+      { time: 1543582800000, value: 55 },
+      { time: 1519822800000, value: 80 }
+    ]
+  },
+  {
+    account_id: 3,
+
+    uid: 'PNG:7',
+
+    name: 'Pig7',
+    image: 'https://s3-ap-southeast-1.amazonaws.com/png.switchmaven.com/0x888/3/3.jpg',
+    description:
+      '',
+
+    type: 'Pig',
+
+    birth_place: 'Jiwaka-Jimi',
+    birth_date: '2018-11-01 00:00:00.000',
+
+    origin: 'Indigenous',
+    skin: 'Black',
+
+    weight: 700,
     price: 0,
 
     diet: ['Potato'],
@@ -160,6 +308,7 @@ const assets = [
     ]
   }
 ]
+
 
 /*
 
