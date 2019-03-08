@@ -17,7 +17,7 @@ const accounts = [
     // status: 'confirmed',
     device: {},
     info: {
-      geora_actor_id: '8b58349d-57de-4406-acc3-bd7c32936a7d'
+      geora_actor_id: 'ff9ae4a2-eea3-47ab-a10c-5b54e07b7653'
     }
   },
 
@@ -29,7 +29,7 @@ const accounts = [
     device: {"uid":"de2747598655ae3e","model":"SM-G950F","locale":"en_AU","system_name":"Android","system_version":"8.0.0"},
     confirmed_at: new Date(),
     info: {
-      geora_actor_id: '8b58349d-57de-4406-acc3-bd7c32936a7d'
+      geora_actor_id: '8523dc8e-bd0a-45a9-bc1e-8ddab66c1222'
     }
   }
 ]
@@ -405,7 +405,7 @@ var events = [
       geora_to_id: 2,
       geora_asset_id: 1,
       geora_asset_address: "0xbA20D335E5F93C4536c923268B6BE1A0237B9e03",
-      
+
     },
     txid: undefined,
     signiture: undefined,
