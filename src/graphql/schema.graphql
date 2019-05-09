@@ -201,6 +201,8 @@ type LivestockAsset {
   owner: [Account],
   events: [Event],
 
+  pending_transfer: Int,
+
   # Convinent way to access through relations
   images: [String],
   weights: [TimeValue]

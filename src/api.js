@@ -35,6 +35,12 @@ const API = {
       result = await scope.findById(+id)
     }
 
+    result.assets.forEach(a => {
+      if (a.info && a.info.transfer) {
+        a.pending_transfer = a.info.transfer
+      }
+    })
+
     return result
   },
 
@@ -62,6 +68,9 @@ const API = {
       a.events.forEach((e, i) => {
         e.data = JSON.stringify(e.data)
       })
+      if (a.info && a.info.transfer) {
+        a.pending_transfer = a.info.transfer
+      }
       return a
     })
   },
@@ -415,6 +424,7 @@ const API = {
 
     // tx crticial
     asset.account_id = to_account.id
+    asset.info['transfer'] = to_account.id
 
     await Event.query().insert(event).then((e) => {
       event.id = e.id
@@ -429,7 +439,6 @@ const API = {
     }
 
     return Asset.query().update(asset).where({id}).returning('*').first().then((asset) => {
-
       Geora.transfer(geora_transfer).then((res) => {
         if (res.data.approveSwap) {
           Object.assign(asset.info, {
@@ -458,8 +467,15 @@ const API = {
     // geora
     let swap_address = asset.info['geora_swap_address']
 
-    if (!swap_address)
+    if (!swap_address) {
       throw new Error('Transfer has been already accepted')
+    }
+
+    let transfer_id = asset.info['transfer']
+
+    if (transfer_id !== account.id) {
+      throw new Error('Invalid transfer')
+    }
 
     let event = {
       name: 'Accept',
@@ -481,6 +497,8 @@ const API = {
     return new Promise((resolve, reject) => {
       Geora.acceptTransfer({ account_id, swap_address }).then((res) => {
         delete asset.info.geora_swap_address
+        delete asset.pending_transfer
+        delete asset.info.transfer
 
         Asset.query().update(asset).where({id}).then((a) => {
           asset.events || (asset.events = [])
